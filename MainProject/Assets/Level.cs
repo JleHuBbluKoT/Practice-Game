@@ -45,21 +45,13 @@ public class Level : AbstractDungeonGenerator
             }
         }
 
-        Vector2Int center = new Vector2Int(0 + sizeX /2, 0 + sizeY/2);
-        Vector2Int bottomCastle = new Vector2Int(center.x - CastleSize.x / 2, center.y - CastleSize.y /2   );
-        Vector2Int topCastle = new Vector2Int(center.x + CastleSize.x / 2, center.y + CastleSize.y / 2);
+        Vector2Int center = new Vector2Int( sizeX /2, sizeY / 2 );
+        List<Room> a = new TetrisGenerator().GenerateRooms(this, center);
 
-        BasicRoom seedRoom = new BasicRoom(this, bottomCastle.x, bottomCastle.y, topCastle.x - 1, topCastle.y - 1);
-        List<Room> temp = new BinarySplit(this).BinarySpacePartitioning(seedRoom, needParents: false);  
-        
-        foreach (var room in temp) {
-            if (!room.hasChildren) {
-                levelRoomList.Add(room);
-            } else {
-                levelRoomParents.Add(room);
-            }
-        }
 
+
+
+        levelRoomList.AddRange(a);
         //RoomPicker roomPick = new RoomPicker();
 
 
@@ -190,5 +182,22 @@ foreach (var item in path)
                 levelRoomList[i].GetTiles();
                 return;
             }  
+        }
+ */
+
+/*
+        Vector2Int center = new Vector2Int(0 + sizeX /2, 0 + sizeY/2);
+        Vector2Int bottomCastle = new Vector2Int(center.x - CastleSize.x / 2, center.y - CastleSize.y /2   );
+        Vector2Int topCastle = new Vector2Int(center.x + CastleSize.x / 2, center.y + CastleSize.y / 2);
+
+        BasicRoom seedRoom = new BasicRoom(this, bottomCastle.x, bottomCastle.y, topCastle.x - 1, topCastle.y - 1);
+        List<Room> temp = new BinarySplit(this).BinarySpacePartitioning(seedRoom, needParents: false);  
+
+        foreach (var room in temp) {
+            if (!room.hasChildren) {
+                levelRoomList.Add(room);
+            } else {
+                levelRoomParents.Add(room);
+            }
         }
  */
