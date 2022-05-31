@@ -22,6 +22,11 @@ public class RandomDungeonGenerator : Editor
         {
             generator.ClearDungeon();
         }
+
+        if (GUILayout.Button("GetCell"))
+        {
+            generator.GainData();
+        }
     }
 
 }

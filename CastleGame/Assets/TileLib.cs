@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 public class TileLib : MonoBehaviour
 {
     [SerializeField]
+    public Grid globalGrid;
+    [SerializeField]
     public Tilemap roomTileMapF, roomTileMapW;
     [SerializeField]
     public TileBase mud, wallTile, floorDecorative, grass, grassSpecial, woodFloor;
@@ -20,24 +22,24 @@ public class TileLib : MonoBehaviour
         {
             switch (node.type) {
                 case "MUD":
-                    OpenTilePainter.PaintSingleTile(roomTileMapF, mud, node.worldPos); break;
+                    OpenTilePainter.PaintSingleTile(roomTileMapF, mud, node.worldPos, globalGrid.transform); break;
                 case "WOODFLOOR":
-                    OpenTilePainter.PaintSingleTile(roomTileMapF, woodFloor, node.worldPos); break;
+                    OpenTilePainter.PaintSingleTile(roomTileMapF, woodFloor, node.worldPos, globalGrid.transform); break;
                 case "DECO":
-                    OpenTilePainter.PaintSingleTile(roomTileMapF, floorDecorative, node.worldPos); break;
+                    OpenTilePainter.PaintSingleTile(roomTileMapF, floorDecorative, node.worldPos, globalGrid.transform); break;
                 case "GRASS":
-                    OpenTilePainter.PaintSingleTile(roomTileMapF, grass, node.worldPos); break;
+                    OpenTilePainter.PaintSingleTile(roomTileMapF, grass, node.worldPos, globalGrid.transform); break;
                 case "GRASSSPECIAL":
-                    OpenTilePainter.PaintSingleTile(roomTileMapF, grassSpecial, node.worldPos); break;
+                    OpenTilePainter.PaintSingleTile(roomTileMapF, grassSpecial, node.worldPos, globalGrid.transform); break;
                 case "WALL":
-                    OpenTilePainter.PaintSingleTile(roomTileMapW, wallTile, node.worldPos); break;
+                    OpenTilePainter.PaintSingleTile(roomTileMapW, wallTile, node.worldPos, globalGrid.transform); break;
                 default:
-                    OpenTilePainter.PaintSingleTile(roomTileMapF, mud, node.worldPos);
+                    OpenTilePainter.PaintSingleTile(roomTileMapF, mud, node.worldPos, globalGrid.transform);
                 break;
             }
         }
 
-        OpenTilePainter.PaintTiles(roomTileMapW, wallTile, queryW);
+        //OpenTilePainter.PaintTiles(roomTileMapW, wallTile, queryW);
 
 
     }

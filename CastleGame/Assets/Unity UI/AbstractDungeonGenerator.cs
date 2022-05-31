@@ -14,6 +14,11 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
     {
         LevelClear();
     }
+    public void GainData()
+    {
+        GetData();
+    }
     protected abstract void RunLevelGeneration();
     protected abstract void LevelClear();
+    protected abstract void GetData();
 }

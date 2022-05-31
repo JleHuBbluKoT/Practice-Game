@@ -11,19 +11,20 @@ public class OpenTilePainter : MonoBehaviour
     [SerializeField]
     protected TileBase tile;
 
-    public static void PaintTiles(Tilemap roomTileMap, TileBase tile, IEnumerable<Vector2Int> positions)
+    public static void PaintTiles(Tilemap roomTileMap, TileBase tile, IEnumerable<Vector2Int> positions, Transform scale)
     {
         foreach (var position in positions)
         {
-            var tilePosition = roomTileMap.WorldToCell((Vector3Int)position);
+            var tilePosition = roomTileMap.WorldToCell(new Vector3(position.x * scale.transform.localScale.x, position.y * scale.transform.localScale.y, 0));
             roomTileMap.SetTile(tilePosition, tile);
             //roomTileMap.SetColor(tilePosition, new Color());
         }
     }
 
-    public static void PaintSingleTile(Tilemap roomTileMap, TileBase tile, Vector2Int position)
+    public static void PaintSingleTile(Tilemap roomTileMap, TileBase tile, Vector2Int position, Transform scale)
     {
-        var tilePosition = roomTileMap.WorldToCell((Vector3Int)position);
+
+        var tilePosition = roomTileMap.WorldToCell(new Vector3( position.x * scale.transform.localScale.x, position.y * scale.transform.localScale.y, 0 ));
         roomTileMap.SetTile(tilePosition, tile);
     }
 
