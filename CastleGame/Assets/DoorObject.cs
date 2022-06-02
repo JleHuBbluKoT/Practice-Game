@@ -18,15 +18,11 @@ public class DoorObject : Interactible
 
     public override void Interact()
     {
-        if (isOpen)
-        {
-            Debug.Log("Closing!");
+        if (isOpen) {
             this.Close();
             Wait(1f);
         }
-        else
-        {
-            Debug.Log("Opening!");
+        else {
             this.Open();
             Wait(1f);
         }

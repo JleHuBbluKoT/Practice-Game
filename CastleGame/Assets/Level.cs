@@ -94,8 +94,6 @@ public class Level : AbstractDungeonGenerator
         }*/
 
         library.PaintLevel(this);
-
-
         /*
         int rand = UnityEngine.Random.Range(0, levelRoomList.Count - 1);
         GameObject e = Instantiate(square);
@@ -140,6 +138,14 @@ public class Level : AbstractDungeonGenerator
         if (y == sizeY) { y = y - 1; }
         return grid[x, y];
     }
+
+    public Vector2 GridToWorld(Vector2Int point) {
+        Vector3 scale = library.globalGrid.transform.localScale;
+        float X = (point.x + 0.5f) * scale.x;
+        float Y = (point.y + 0.5f) * scale.y;
+        return new Vector2(X, Y);
+    }
+
     public void interactiblesClear() {
         foreach (var item in levelInteractibles) {
             DestroyImmediate(item);
@@ -160,6 +166,10 @@ public class Level : AbstractDungeonGenerator
     }
     protected override void ObjectsClear() {
         interactiblesClear();
+    }
+
+    public float distanceBetweenPoints(Vector2 from, Vector2 to) {
+        return (float)Math.Sqrt((to.x - from.x) * (to.x - from.x) + (to.y - from.y) * (to.y - from.y));
     }
 }
 
