@@ -46,10 +46,10 @@ public class Level : AbstractDungeonGenerator
                 grid[x, y].gCost = 100;
             }
         }
-        /*
+        
         Vector2Int center = new Vector2Int( sizeX /2, sizeY / 2 );
         List<Room> a = new TetrisGenerator().GenerateRooms(this, center);
-        levelRoomList.AddRange(a);*/
+        levelRoomList.AddRange(a);
 
 
         //RoomPicker roomPick = new RoomPicker();
@@ -77,6 +77,7 @@ public class Level : AbstractDungeonGenerator
 
         
         List<Room> usedRoom = new List<Room>();
+        /*
         for (int i = 0; i < levelRoomList.Count; i++) {
             
             foreach (var neighbour in levelRoomList[i].connectedRooms) {
@@ -85,7 +86,7 @@ public class Level : AbstractDungeonGenerator
                 }
             }
             usedRoom.Add(levelRoomList[i]);
-        }
+        }*/
         //int q = loopRooms.Count;
         //RoomPainterBrushes.Line(this, loopRooms[q - 1].center().x, loopRooms[q - 1].center().y, loopRooms[0].center().x, loopRooms[0].center().y, "DECO");
 

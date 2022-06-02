@@ -9,8 +9,8 @@ public class TetrisGenerator
     public List<Room> GenerateRooms(Level level, Vector2Int center, int roomCount = 25, int minW = 5, int maxW = 15, int minH = 5, int maxH = 15)
     {
         List<Room> settledRooms = new List<Room>();
-        Vector2Int castleBL = new Vector2Int(level.sizeX / 4, level.sizeY / 4);
-        Vector2Int castleTR = new Vector2Int(level.sizeX / 4 * 3, level.sizeY / 4 * 3);
+        Vector2Int castleBL = new Vector2Int(level.sizeX / 8, level.sizeY / 8);
+        Vector2Int castleTR = new Vector2Int(level.sizeX / 8 * 7, level.sizeY / 8 * 7);
 
         
         
