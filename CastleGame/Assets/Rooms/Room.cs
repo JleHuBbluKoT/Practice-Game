@@ -60,5 +60,16 @@ public abstract class Room : Rect
 	public int minHeight() { return -1; }
 	public int maxHeight() { return -1; }
 
-
+    public void CutDoor(Room neighbour)
+    {
+        Rect interWalls = this.intersect(neighbour);
+        Vector2Int center = interWalls.center();
+        RoomPainterBrushes.SetTile(grid, center.x, center.y, "WOODFLOOR");
+        if (interWalls.Width() == 1) {
+            grid.objectLib.PlaceDoor(new Vector2Int(center.x, center.y), false, grid);
+        }
+        else {
+            grid.objectLib.PlaceDoor(new Vector2Int(center.x, center.y), true, grid);
+        }
+    }
 }

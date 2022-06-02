@@ -22,10 +22,9 @@ public class RandomDungeonGenerator : Editor
         {
             generator.ClearDungeon();
         }
-
-        if (GUILayout.Button("GetCell"))
+        if (GUILayout.Button("Clear Objects"))
         {
-            generator.GainData();
+            generator.ClearObjects();
         }
     }
 

@@ -8,6 +8,7 @@ public class Level : AbstractDungeonGenerator
 {
     [SerializeField]
     public TileLib library;
+    public GameObjectLib objectLib;
     /*
     [SerializeField]
     public Tilemap roomTileMapF, roomTileMapW;
@@ -24,6 +25,9 @@ public class Level : AbstractDungeonGenerator
     public List<Room> levelRoomList = new List<Room>();
     public List<Room> levelRoomParents = new List<Room>();
 
+
+    public List<GameObject> levelInteractibles = new List<GameObject>();
+
     public Vector2Int startNode, endNode;
     public List<GridNode> path;
 
@@ -31,6 +35,7 @@ public class Level : AbstractDungeonGenerator
 
     public void CreateGrid()
     {
+        interactiblesClear();
         loopRooms.Clear();
         levelRoomList.Clear();
         levelRoomParents.Clear();
@@ -51,17 +56,20 @@ public class Level : AbstractDungeonGenerator
         List<Room> a = new TetrisGenerator().GenerateRooms(this, center);
         levelRoomList.AddRange(a);
 
-
         //RoomPicker roomPick = new RoomPicker();
-
-
         Graph.ConnectionLogic(levelRoomList, this);
 
+        for (int i = 0; i < levelRoomList.Count; i++) {
+            if (levelRoomList[i].connectedRooms.Count == 0) {  levelRoomList.RemoveAt(i); }
+        }
+
+        for (int i = 0; i < levelRoomList.Count; i++) {
+            levelRoomList[i].indexRL = i;
+        }
+
+        Graph.ConnectionLogic(levelRoomList, this, true);
 
         //loopRooms = roomPick.LoopLevel(this);
-
-
-        Graph.ConnectionLogic(levelRoomList, this);
 
 
         foreach (var item in levelRoomList)
@@ -69,13 +77,10 @@ public class Level : AbstractDungeonGenerator
             item.GetTiles();
             //Debug.Log(item.indexRL);
         }
-        foreach (var item in loopRooms)
-        {
-            //item.GetTiles();
-            
-        }
 
-        
+        DoorPropagation.PropagateDoors(levelRoomList, this);
+
+
         List<Room> usedRoom = new List<Room>();
         /*
         for (int i = 0; i < levelRoomList.Count; i++) {
@@ -87,8 +92,6 @@ public class Level : AbstractDungeonGenerator
             }
             usedRoom.Add(levelRoomList[i]);
         }*/
-        //int q = loopRooms.Count;
-        //RoomPainterBrushes.Line(this, loopRooms[q - 1].center().x, loopRooms[q - 1].center().y, loopRooms[0].center().x, loopRooms[0].center().y, "DECO");
 
         library.PaintLevel(this);
 
@@ -125,44 +128,39 @@ public class Level : AbstractDungeonGenerator
         return neighbourds;
     }
 
-    protected override void RunLevelGeneration()
-    {
-        library.ClearAll();
-        CreateGrid();
-    }
-    protected override void LevelClear()
-    {
-        library.ClearAll();
-        //levelRooms.Clear();
-        loopRooms.Clear();
-        levelRoomList.Clear();
-    }
-
-    protected override void GetData()
-    {
-        Debug.Log(grid[50,50].type);
-    }
-
-    public GridNode WorldToGrid(Vector3 point)
-    {
+    public GridNode WorldToGrid(Vector3 point) {
         Vector3 scale = library.globalGrid.transform.localScale;
         float percentX = (point.x) / sizeX / scale.x;
         float percentY = (point.y) / scale.y / sizeY;
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
-
         int x = (int)Math.Floor((sizeX) * percentX);
         int y = (int)Math.Floor((sizeY) * percentY);
-        if (x == sizeX) {
-            x = x - 1;
-        }
-        if (y == sizeY) {
-            y = y - 1;
-        }
+        if (x == sizeX) { x = x - 1; }
+        if (y == sizeY) { y = y - 1; }
         return grid[x, y];
+    }
+    public void interactiblesClear() {
+        foreach (var item in levelInteractibles) {
+            DestroyImmediate(item);
+        }
+        levelInteractibles.Clear();
     }
 
 
+    protected override void RunLevelGeneration() {
+        library.ClearAll();
+        CreateGrid();
+    }
+    protected override void LevelClear() {
+        library.ClearAll();
+        loopRooms.Clear();
+        levelRoomList.Clear();
+        interactiblesClear();
+    }
+    protected override void ObjectsClear() {
+        interactiblesClear();
+    }
 }
 
 /*

@@ -13,12 +13,12 @@ public class GridNode
     public bool checkedTrue = false;
     public int gCost;
     public int hCost;
+    public GameObject associatedObject = null;
     public int fCost { get { return gCost + hCost; } }
 
     public GridNode parent;
 
-    public GridNode(bool _walkable, Vector2Int _worldPos, int _gridX, int _gridY, string _type = "FLOOR")
-    {
+    public GridNode(bool _walkable, Vector2Int _worldPos, int _gridX, int _gridY, string _type = "FLOOR") {
         walkable = _walkable;
         worldPos = _worldPos;
         gridX = _gridX;
