@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class Items : MonoBehaviour
 {
+    //Item class
+    [System.Serializable]
+    public class Item
+    {
+        public string name;
+        public float weight;
+        public float damage;
+        public Sprite sprite;
+    }
+
     //Input data
     public GameObject itemObject; //Item common object
     public int lastID = 0; //Will be an ID for an item
-    public List<string> itemNames = new List<string>(); //Item names list
-    public List<Sprite> itemSprites = new List<Sprite>(); //Item sprites list
+    public List<Item> list = new List<Item>(); //Items list
 
 
     // Start is called before the first frame update
@@ -35,16 +44,16 @@ public class Items : MonoBehaviour
         obj.transform.parent = itemSpawn;
 
         //Naming item after ID
-        obj.name = "Item_" + lastID.ToString(); 
+        obj.name = "Item_" + lastID.ToString();
         lastID++;
 
         if (ID == -1)
         {
-            obj.GetComponent<ItemData>().itemTypeID = Random.Range(0, itemNames.Count); //Random item
+            obj.GetComponent<ItemData>().ID = Random.Range(0, list.Count); //Random item
         }
         else
         {
-            obj.GetComponent<ItemData>().itemTypeID = ID; //Item by ID
+            obj.GetComponent<ItemData>().ID = ID; //Item by ID
         }
     }
 }

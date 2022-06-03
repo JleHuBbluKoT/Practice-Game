@@ -16,12 +16,19 @@ public class GameObjectLib : MonoBehaviour
     }
     public void associate(Vector2Int coords, Level level, GameObject interactible) { //сюда ввод€тс€ координаты относительно сетки
         level.grid[coords.x, coords.y].associatedObject = interactible;
-        level.levelInteractibles.Add(interactible);
+        //level.levelInteractibles.Add(interactible);
+        interactible.GetComponent<Interactible>().associatedNode = level.grid[coords.x, coords.y];
     }
-    /*
-    public void associate(Vector2Int coords, Level level, GameObject interactible)
-    { //сюда ввод€тс€ координаты относительно сетки
-        level.grid[coords.x, coords.y].associatedObject = interactible;
-        level.levelInteractibles.Add(interactible);
-    }*/
+    
+    public void remove(GameObject interactible) {
+        interactible.GetComponent<Interactible>().associatedNode.associatedObject = null;
+        //interactible.GetComponent<Interactible>().level.levelInteractibles.Remove(interactible);
+        Destroy(interactible);
+    }
+    public void remove(Vector2Int coords, Level level) {
+        GameObject interactible = level.grid[coords.x, coords.y].associatedObject;
+        interactible.GetComponent<Interactible>().associatedNode.associatedObject = null;
+        //interactible.GetComponent<Interactible>().level.levelInteractibles.Remove(interactible);
+        Destroy(interactible); 
+    }
 }
