@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pause : MonoBehaviour
 {
     public static bool isPlaying;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +16,7 @@ public class Pause : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isPlaying = GameObject.Find("Player").GetComponent<Player>().isPlaying;
+        isPlaying = player.GetComponent<Player>().isPlaying;
 
         // Pressing escape
         if (Input.GetKeyDown(KeyCode.Escape))

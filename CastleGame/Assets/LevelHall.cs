@@ -25,18 +25,13 @@ public class LevelHall
         HashSet<GridNode> closedSet = new HashSet<GridNode>();
         openSet.Add(startNode);
 
-        while (openSet.Count > 0)
-        {
+        while (openSet.Count > 0) {
             GridNode currentNode = openSet[0];
-            for (int i = 1; i < openSet.Count; i++)
-            {
-                if (openSet[i].fCost < currentNode.fCost || openSet[i].fCost == currentNode.fCost)
-                { 
-                    if (openSet[i].hCost < currentNode.hCost)
-                    {
+            for (int i = 1; i < openSet.Count; i++) {
+                if (openSet[i].fCost < currentNode.fCost || openSet[i].fCost == currentNode.fCost) { 
+                    if (openSet[i].hCost < currentNode.hCost) {
                         currentNode = openSet[i];
                     }
-                    
                 }
             }
             openSet.Remove(currentNode);
@@ -79,6 +74,7 @@ public class LevelHall
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
+        path.Add(targetNode);
         path.Reverse();
         grid.path = path;
     }

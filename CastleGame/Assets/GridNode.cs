@@ -26,4 +26,15 @@ public class GridNode
         type = _type;
     }
 
+    public void setHueristics(Vector2Int target)
+    {
+        hCost = simpleDist(gridX, gridY, target);
+    }
+
+    public int simpleDist(int x, int y, Vector2Int target)
+    {
+        int dX = Mathf.Abs(x - target.x);
+        int dY = Mathf.Abs(y - target.y);
+        return Mathf.Min(dX, dY) * 4 + Mathf.Max(dX, dY) * 10;
+    }
 }

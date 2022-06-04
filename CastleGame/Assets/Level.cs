@@ -93,11 +93,14 @@ public class Level : AbstractDungeonGenerator
             usedRoom.Add(levelRoomList[i]);
         }*/
 
+
+
         library.PaintLevel(this);
         /*
         int rand = UnityEngine.Random.Range(0, levelRoomList.Count - 1);
         GameObject e = Instantiate(square);
         e.transform.position = new Vector3(levelRoomList[rand].center().x, levelRoomList[rand].center().y, 1);*/
+
 
     }
 
@@ -125,6 +128,59 @@ public class Level : AbstractDungeonGenerator
         //foreach (var item in neighbourds) { Debug.Log("Neighbours: " + item.gridX + " " + item.gridY); }
         return neighbourds;
     }
+
+    public List<GridNode> GetNeighbourds8(GridNode node)
+    {
+        List<GridNode> neighbourds = new List<GridNode>();
+        int nX = node.gridX;
+        int nY = node.gridY;
+        int snX = nX;
+        int enX = nX;
+        int snY = nY;
+        int enY = nY;
+
+        if (nX + 1 <= sizeX - 1) {
+            if (grid[nX + 1, nY].walkable) {
+                enX = nX + 1;
+            } // X up
+        }
+        if (nX - 1 >= 0) {
+            if (grid[nX - 1, nY].walkable) {
+                snX = nX - 1;
+            } // X down
+        }
+        if (nY + 1 <= sizeY - 1) {
+            if (grid[nX, nY + 1].walkable) {
+                enY = nY + 1;
+            } // Y up
+        }
+        if (nY - 1 >= 0) {
+            if (grid[nX, nY - 1].walkable) {
+                snY = nY - 1;
+            } // Y down
+        }
+
+
+
+        /*
+        snX = Mathf.Clamp(nX - 1, 0, sizeX - 1);
+        enX = Mathf.Clamp(nX + 1, 0, sizeX - 1);
+        snY = Mathf.Clamp(nY - 1, 0, sizeX - 1);
+        enY = Mathf.Clamp(nY + 1, 0, sizeX - 1);
+        */
+        for (int i = snX; i < enX + 1; i++) {
+            for (int j = snY; j < enY + 1; j++) {
+                if (!(i == nX && j == nY) ) {
+                    neighbourds.Add(this.grid[i, j]);
+                    //Debug.Log(i + " " + j);
+                }
+            }
+        }
+
+        
+        return neighbourds;
+    }
+
 
     public GridNode WorldToGrid(Vector3 point) {
         Vector3 scale = library.globalGrid.transform.localScale;
