@@ -9,6 +9,7 @@ public class Items : MonoBehaviour
     public class Item
     {
         public string name;
+        public string category;
         public float weight;
         public float damage;
         public Sprite sprite;
@@ -17,7 +18,10 @@ public class Items : MonoBehaviour
     //Input data
     public GameObject itemObject; //Item common object
     public int lastID = 0; //Will be an ID for an item
+    public float speedDecrease = 0.1f;
+    public float baseSlow = 0.1f;
     public List<Item> list = new List<Item>(); //Items list
+    public static Vector3 defaultDir = new Vector3(0f, 1f, 0f);
 
 
     // Start is called before the first frame update
@@ -32,19 +36,26 @@ public class Items : MonoBehaviour
 
     }
 
-    //Function which creates items. 1 - X float, 2 - Y float, item ID int. ID = -1 is random item.
-    public void CreateItem(float x, float y, int ID)
+    //Function which creates items
+    public void CreateItem(Vector3 coordinates, int ID, int owner = -2, float currentSpeed = 0f, Vector3 direction = new Vector3(),
+        float force = 1f, bool pickable = true, bool hasCollision = true)
     {
+
+        if (Mathf.Abs(direction[0]) + Mathf.Abs(direction[1]) == 0f)
+        {
+            direction = new Vector3(0f, 1f, 0f);
+        }
+
         /*items.GetComponent<SpriteRenderer>().sprite = itemList[Random.Range(0, itemList.Count - 1)];*/
         //Copying object
-        var obj = Instantiate(itemObject, new Vector3(x, y, 0f), Quaternion.identity);
+        var obj = Instantiate(itemObject, new Vector3(coordinates[0], coordinates[1], -1f), Quaternion.identity);
 
         //Saving in ItemSpawn object
         var itemSpawn = GameObject.Find("ItemSpawn").transform;
         obj.transform.parent = itemSpawn;
 
         //Naming item after ID
-        obj.name = "Item_" + lastID.ToString();
+        obj.name = "Item" + lastID.ToString();
         lastID++;
 
         if (ID == -1)
@@ -55,5 +66,13 @@ public class Items : MonoBehaviour
         {
             obj.GetComponent<ItemData>().ID = ID; //Item by ID
         }
+
+        obj.GetComponent<ItemData>().direction = direction;
+        obj.GetComponent<ItemData>().currentSpeed = currentSpeed;
+        obj.GetComponent<ItemData>().owner = owner;
+        obj.GetComponent<ItemData>().direction = direction;
+        obj.GetComponent<ItemData>().force = force;
+        obj.GetComponent<ItemData>().pickable = pickable;
+        obj.GetComponent<ItemData>().hasCollision = hasCollision;
     }
 }

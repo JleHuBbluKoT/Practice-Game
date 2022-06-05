@@ -27,8 +27,9 @@ public class GhostBehaviour : Creature
         //myNode = level.WorldToGrid(this.transform.position);
     }
 
-    async void Update()
+    void Update()
     {
+        
         //Открытие и закрытие дверей
         if (level.WorldToGrid(this.transform.position) != myNode) { 
             if (myNode != null) {
@@ -99,9 +100,9 @@ public class GhostBehaviour : Creature
                 isCharging = true;
             } 
             //else {  pathfindChase = true; }
-            /*
-            здесь был умный код но теперь он где-то внизу в комментах
-            */
+            
+            //здесь был умный код но теперь он где-то внизу в комментах
+            
             //else 
             {
                 if (!longRangeChase) {
@@ -150,7 +151,7 @@ public class GhostBehaviour : Creature
         }
 
 
-
+        
     }
 
     public bool CanSee(GameObject target) {

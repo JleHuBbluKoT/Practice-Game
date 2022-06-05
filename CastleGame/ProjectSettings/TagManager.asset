@@ -8,6 +8,8 @@ TagManager:
   - Bar
   - Item
   - Wall
+  - Creature
+  - Interactible
   layers:
   - Default
   - TransparentFX
