@@ -58,6 +58,23 @@ public class Level : AbstractDungeonGenerator
         levelRoomList.AddRange(a);
 
         //RoomPicker roomPick = new RoomPicker();
+
+        HashSet<int> randRooms = new HashSet<int>();
+        int emerCount = 0;
+        while (emerCount < 40 && randRooms.Count < 4)
+        {
+            emerCount++;
+            randRooms.Add(UnityEngine.Random.Range(0, this.levelRoomList.Count - 1));
+        }
+        List<int> cand = new List<int>();
+        cand.AddRange(randRooms);
+        for (int i = 0; i < cand.Count; i++)
+        {
+            Room aaa = levelRoomList[cand[i]];
+            levelRoomList[cand[i]] = levelRoomList[cand[i]].ChangeType(new ResourceRoom(this, aaa.left, aaa.bottom, aaa.right, aaa.top));
+        }
+
+
         Graph.ConnectionLogic(levelRoomList, this);
 
         for (int i = 0; i < levelRoomList.Count; i++) {
@@ -73,15 +90,18 @@ public class Level : AbstractDungeonGenerator
         //loopRooms = roomPick.LoopLevel(this);
 
 
-        foreach (var item in levelRoomList)
-        {
+
+        
+
+
+
+
+        foreach (var item in levelRoomList) {
             item.GetTiles();
             //Debug.Log(item.indexRL);
         }
 
         DoorPropagation.PropagateDoors(levelRoomList, this);
-
-
         List<Room> usedRoom = new List<Room>();
         /*
         for (int i = 0; i < levelRoomList.Count; i++) {
@@ -93,9 +113,6 @@ public class Level : AbstractDungeonGenerator
             }
             usedRoom.Add(levelRoomList[i]);
         }*/
-
-
-
         library.PaintLevel(this);
         /*
         int rand = UnityEngine.Random.Range(0, levelRoomList.Count - 1);

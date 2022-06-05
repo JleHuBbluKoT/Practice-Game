@@ -22,6 +22,7 @@ public class Items : MonoBehaviour
     public float baseSlow = 0.1f;
     public List<Item> list = new List<Item>(); //Items list
     public static Vector3 defaultDir = new Vector3(0f, 1f, 0f);
+    public List<GameObject> spawnedItems = new List<GameObject>();
 
 
     // Start is called before the first frame update
@@ -49,6 +50,7 @@ public class Items : MonoBehaviour
         /*items.GetComponent<SpriteRenderer>().sprite = itemList[Random.Range(0, itemList.Count - 1)];*/
         //Copying object
         var obj = Instantiate(itemObject, new Vector3(coordinates[0], coordinates[1], -1f), Quaternion.identity);
+        spawnedItems.Add(obj);
 
         //Saving in ItemSpawn object
         var itemSpawn = GameObject.Find("ItemSpawn").transform;
@@ -74,5 +76,13 @@ public class Items : MonoBehaviour
         obj.GetComponent<ItemData>().force = force;
         obj.GetComponent<ItemData>().pickable = pickable;
         obj.GetComponent<ItemData>().hasCollision = hasCollision;
+    }
+
+    public void ItemsKill()
+    {
+        foreach (var item in spawnedItems)
+        {
+            Destroy(item);
+        }
     }
 }

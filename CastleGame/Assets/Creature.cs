@@ -171,7 +171,7 @@ public class Creature : MonoBehaviour
         return Mathf.Sqrt((float)Math.Pow(transform.position.x - other.transform.position.x, 2) + (float)Math.Pow(transform.position.y - other.transform.position.y, 2));
     }
 
-    public void ApplyDamage(float Damage)
+    public virtual void ApplyDamage(float Damage)
     {
         if (!Invincible)
         {

@@ -10,11 +10,15 @@ TagManager:
   - Wall
   - Creature
   - Interactible
+  - SlotItem
+  - Slot
+  - Button
+  - Warning
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Objects
   - Water
   - UI
   - 

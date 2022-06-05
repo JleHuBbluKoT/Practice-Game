@@ -21,9 +21,14 @@ public class ResourceRoom : Room
     {
         RoomPainterBrushes.LevelRectangle(grid, left, bottom, right, top, "WALL");
         RoomPainterBrushes.LevelRectangle(grid, left + 1, bottom + 1, right - 1, top - 1, "WOODFLOOR");
+        grid.grid[center().x, center().y].type = "GRASS";
 
         grid.objectLib.PlaceJunk(new Vector2Int(center().x + 1, center().y + 1), grid);
 
+        grid.objectLib.PlaceJunk(new Vector2Int(center().x - 1, center().y - 1), grid);
 
+        grid.objectLib.PlaceJunk(new Vector2Int(center().x + 1, center().y - 1), grid);
+
+        grid.objectLib.PlaceJunk(new Vector2Int(center().x - 1, center().y + 1), grid);
     }
 }

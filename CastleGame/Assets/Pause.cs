@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Pause : MonoBehaviour
 {
+    public GameObject resetter;
     public GameObject slotItemObject;
     public Player.Slot holdItem = new Player.Slot();
     public static bool isPlaying;
@@ -68,7 +69,9 @@ public class Pause : MonoBehaviour
                         }
                         if (mouseObject.name == "ResetConfirm")
                         {
-                            //Restart
+                            isAsking = false;
+                            isReseting = false;
+                            resetter.GetComponent<StartingSequence>().StartGame();
                         }
                         if (mouseObject.name == "ExitBt" && !isReseting)
                         {

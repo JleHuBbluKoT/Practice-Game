@@ -14,6 +14,7 @@ public class ItemData : MonoBehaviour
     public bool hasCollision = true; //Has an item collision
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,8 +32,7 @@ public class ItemData : MonoBehaviour
         var isPlaying = GameObject.Find("Player").GetComponent<Player>().isPlaying;
         gameObject.transform.localScale = new Vector3(1, 1, 1);
 
-        if (isPlaying)
-        {
+        if (isPlaying) {
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
             transform.eulerAngles = new Vector3(0, 0, angle);
         }
@@ -43,8 +43,7 @@ public class ItemData : MonoBehaviour
                 * force * GameObject.Find("ItemSpawn").GetComponent<Items>().baseSlow;
             RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y) + new Vector2(direction.x, direction.y),
                 new Vector2(direction.x, direction.y), 5f);
-            Debug.Log(hit.collider.tag);
-            
+
             if (hit.collider != null && (hit.collider.tag != "Button") && (hit.collider.tag != "Item") && (hit.collider.tag != "SlotItem") && hit.collider.tag != "HoldItem" && hit.collider.tag != "Slot" && hit.collider.tag != "Warning" && hit.collider.tag != "MainCamera" && hit.collider.tag != "Bar")
             {
                 

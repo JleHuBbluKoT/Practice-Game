@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 226164940034077132}
   - component: {fileID: 4658003043033132139}
   - component: {fileID: 4497014176397324801}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Junk
-  m_TagString: Untagged
+  m_TagString: Interactible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09305801c07299748837d65c72f737be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: {fileID: 0}
+  item: {fileID: 0}
 --- !u!61 &4658003043033132139
 BoxCollider2D:
   m_ObjectHideFlags: 0

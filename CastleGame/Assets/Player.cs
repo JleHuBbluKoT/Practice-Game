@@ -73,6 +73,12 @@ public class Player : MonoBehaviour
         public int ID = -1; //Item ID
         public int amount = 0;
     }
+    public Slot newSlot(int _ID, int _amount) {
+        Slot fff = new Player.Slot();
+        fff.ID = _ID;
+        fff.amount = _amount;
+        return fff;
+    }
     public float itemReach = 1f; //How far player can reach items
     public int inventoryLimit = 15; //Maximum item slots amount
     public int activeSlot = 0;
@@ -91,7 +97,7 @@ public class Player : MonoBehaviour
         GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 1f);
         GameObject.Find("MainSlots").transform.localScale = new Vector3(cameraData.orthographicSize * 1f, cameraData.orthographicSize * 0.2f, 1f);
 
-
+        DefaultInventory();
     }
 
     // Update is called once per frame
@@ -531,10 +537,10 @@ public class Player : MonoBehaviour
         temperature.current = temperature.min + temperature.max;
 
         var cameraData = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.85f, 0.1f);
+        GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.85f, 1f);
         GameObject.Find("Bar").transform.localScale = new Vector3(cameraData.orthographicSize * 1.5f, cameraData.orthographicSize * 0.2f, 1f);
 
-        GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 0.1f);
+        GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 1f);
         GameObject.Find("MainSlots").transform.localScale = new Vector3(cameraData.orthographicSize * 1f, cameraData.orthographicSize * 0.2f, 1f);
     }
 
@@ -552,5 +558,13 @@ public class Player : MonoBehaviour
         temperature.current += amount;
     }
 
+    public void DefaultInventory()
+    {
+        inventory.Clear();
+        inventory.Add(newSlot(1, 10));
+        inventory.Add(newSlot(2, 10));
+        inventory.Add(newSlot(3, 10));
+        inventory.Add(newSlot(0, 10));
+    }
 
 }

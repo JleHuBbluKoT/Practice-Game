@@ -13,7 +13,12 @@ public class GameObjectLib : MonoBehaviour
 
     public void PlaceJunk(Vector2Int junkPos, Level level)
     {
-
+        GameObject e = Instantiate(junk);
+        e.transform.parent = interactiblesLayer.transform;
+        e.transform.position = new Vector3((junkPos.x + 0.5f) * level.library.globalGrid.transform.localScale.x, (junkPos.y + 0.5f) * level.library.globalGrid.transform.localScale.y, 0);
+        e.transform.localScale = new Vector3(level.library.globalGrid.transform.localScale.x, level.library.globalGrid.transform.localScale.y, level.library.globalGrid.transform.localScale.z);
+        associate(new Vector2Int(junkPos.x, junkPos.y), level, e);
+        level.grid[junkPos.x, junkPos.y].walkable = false;
     }
 
     public void PlaceDoor( Vector2Int dorPos, bool horizontal, Level level ) {

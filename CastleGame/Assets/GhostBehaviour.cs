@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 public class GhostBehaviour : Creature
 {
-    public GameObject AOE;
     public List<GridNode> angryNodes = new List<GridNode>();
     float elapsed = 0f;
     float lookCooldown = 0f;
@@ -80,7 +79,7 @@ public class GhostBehaviour : Creature
             foreach (var item in colliders)
             {
                 Debug.Log(item.transform.tag);
-                if (item.transform.tag == "Creature") {
+                if (item.transform.tag == "Creature" || item.transform.tag == "Interactible") {
                     item.SendMessage("ApplyDamage", 20f);
                 }
 
@@ -153,6 +152,28 @@ public class GhostBehaviour : Creature
 
         
     }
+    public override void ApplyDamage(float Damage)
+    {
+
+    }
+    public void Restart()
+    {
+         pathNodes.Clear();
+         angryNodes.Clear();
+         elapsed = 0f;
+         lookCooldown = 0f;
+
+         speed = 1f;
+         awareness = 0;
+
+         longRangeChase = false;
+         myNode = new GridNode(true, Vector2Int.zero, 0, 0, "FLOOR");
+
+         isCharging = false;
+         charging = 0f;
+         chargingCooldown = 0f;
+         needNode = null;
+    }
 
     public bool CanSee(GameObject target) {
         Vector2 startP = this.transform.position;
@@ -160,7 +181,7 @@ public class GhostBehaviour : Creature
         Vector3 diff = new Vector3(startEP.x - startP.x, startEP.y - startP.y, 0);
         //float distance = (float)(Mathf.Abs((float)(Mathf.Min(diff.x, diff.y) * 1.5)) + Mathf.Abs(diff.x - diff.y));
 
-        RaycastHit2D hit = Physics2D.Raycast(startP, diff);
+        RaycastHit2D hit = Physics2D.Raycast(startP, diff, Mathf.Infinity, 1 << 3);
         if (hit.transform.tag == playerR.transform.tag) {
             return true;
         }
