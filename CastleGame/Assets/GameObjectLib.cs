@@ -9,9 +9,18 @@ public class GameObjectLib : MonoBehaviour
     public GameObject door;
     public GameObject keyStorage;
     public GameObject keyDoor;
+    public GameObject finish;
 
 
-
+    public void PlaceFinish(Vector2Int keyPos, Level level)
+    {
+        GameObject e = Instantiate(finish);
+        e.transform.parent = interactiblesLayer.transform;
+        e.transform.position = new Vector3((keyPos.x + 0.5f) * level.library.globalGrid.transform.localScale.x, (keyPos.y + 0.5f) * level.library.globalGrid.transform.localScale.y, 0);
+        e.transform.localScale = new Vector3(level.library.globalGrid.transform.localScale.x, level.library.globalGrid.transform.localScale.y, level.library.globalGrid.transform.localScale.z);
+        associate(new Vector2Int(keyPos.x, keyPos.y), level, e);
+        level.grid[keyPos.x, keyPos.y].walkable = false;
+    }
     public void PlaceKeyDoor(Vector2Int keyPos, Level level)
     {
         GameObject e = Instantiate(keyDoor);

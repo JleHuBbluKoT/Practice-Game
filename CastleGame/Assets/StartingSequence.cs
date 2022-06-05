@@ -29,7 +29,13 @@ public class StartingSequence : MonoBehaviour
 
         level.ClearDungeon();
         level.CreateGrid();
-        square.transform.position = new Vector3(79, 79, 0);
+
+
+        GridNode tempNode = level.levelRoomList[0].QuickFreeSpot();
+        Vector3 b = level.GridToWorld(new Vector2Int(tempNode.gridX, tempNode.gridY));
+
+        square.transform.position = new Vector3(b.x, b.y, 0);
+
         square.GetComponent<Player>().Resurrect();
         square.GetComponent<Player>().DefaultInventory();
 

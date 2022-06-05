@@ -27,7 +27,7 @@ public class ExitRoom : Room
         grid.objectLib.PlaceKeyDoor(new Vector2Int(center().x, center().y), grid);
         grid.objectLib.PlaceKeyDoor(new Vector2Int(center().x, center().y + 1), grid);
         grid.objectLib.PlaceKeyDoor(new Vector2Int(center().x, center().y + 2), grid);
-
+        grid.objectLib.PlaceFinish(new Vector2Int(center().x, center().y -1), grid);
     }
 
     public override GridNode QuickFreeSpot()
