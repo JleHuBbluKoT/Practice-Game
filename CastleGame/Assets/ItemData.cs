@@ -42,11 +42,12 @@ public class ItemData : MonoBehaviour
             var nextLocationDistance = currentSpeed / GameObject.Find("ItemSpawn").GetComponent<Items>().list[ID].weight
                 * force * GameObject.Find("ItemSpawn").GetComponent<Items>().baseSlow;
             RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y) + new Vector2(direction.x, direction.y),
-                new Vector2(direction.x, direction.y), -5f);
-
-            if (hit.collider != null && hit.collider.tag != "Button" && hit.collider.tag != "Item" && hit.collider.tag != "SlotItem" && hit.collider.tag != "HoldItem" && hit.collider.tag != "Slot" && hit.collider.tag != "Warning" && hit.collider.tag != "MainCamera" && hit.collider.tag != "Bar")
+                new Vector2(direction.x, direction.y), 5f);
+            Debug.Log(hit.collider.tag);
+            
+            if (hit.collider != null && (hit.collider.tag != "Button") && (hit.collider.tag != "Item") && (hit.collider.tag != "SlotItem") && hit.collider.tag != "HoldItem" && hit.collider.tag != "Slot" && hit.collider.tag != "Warning" && hit.collider.tag != "MainCamera" && hit.collider.tag != "Bar")
             {
-                Debug.Log(hit.collider.tag);
+                
                 if (hasCollision)
                 {
                     currentSpeed = 0f;
