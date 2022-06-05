@@ -23,6 +23,11 @@ public class ExitRoom : Room
         RoomPainterBrushes.LevelRectangle(grid, left + 1, bottom + 1, right - 1, top - 1, "WOODFLOOR");
         RoomPainterBrushes.LevelRectangle(grid, center().x - 1, center().y - 2, center().x + 1, center().y + 2, "WALL");
         RoomPainterBrushes.Line(grid, center().x, center().y - 1, center().x, center().y + 2, "GRASS");
+
+        grid.objectLib.PlaceKeyDoor(new Vector2Int(center().x, center().y), grid);
+        grid.objectLib.PlaceKeyDoor(new Vector2Int(center().x, center().y + 1), grid);
+        grid.objectLib.PlaceKeyDoor(new Vector2Int(center().x, center().y + 2), grid);
+
     }
 
     public override GridNode QuickFreeSpot()

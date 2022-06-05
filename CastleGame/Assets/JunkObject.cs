@@ -29,9 +29,9 @@ public class JunkObject : Interactible
 
     public void spawnItems()
     {
-        for (int i = 0; i < UnityEngine.Random.Range(2,5); i++)
+        for (int i = 0; i < UnityEngine.Random.Range(1,4); i++)
         {
-            GameObject.FindWithTag("ItemSpawn").GetComponent<Items>().CreateItem(this.transform.position, -1, -3, UnityEngine.Random.Range(0f, 1f), new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0));
+            GameObject.FindWithTag("ItemSpawn").GetComponent<Items>().CreateItem(this.transform.position, 0, -3, UnityEngine.Random.Range(0f, 1f), new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0));
         }
         associatedNode.walkable = true;
         Destroy(gameObject);

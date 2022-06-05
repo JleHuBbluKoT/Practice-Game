@@ -98,8 +98,10 @@ public class Level : AbstractDungeonGenerator
         levelRoomList[cand[1]] = levelRoomList[cand[1]].ChangeType(new KeyStorageRoom(this, aaa.left, aaa.bottom, aaa.right, aaa.top));
         aaa = levelRoomList[cand[2]];
         levelRoomList[cand[2]] = levelRoomList[cand[2]].ChangeType(new ExitRoom(this, aaa.left, aaa.bottom, aaa.right, aaa.top));
+        aaa = levelRoomList[cand[3]];
+        levelRoomList[cand[3]] = levelRoomList[cand[3]].ChangeType(new KeyStorageRoom(this, aaa.left, aaa.bottom, aaa.right, aaa.top));
 
-        for (int i = 3; i < cand.Count; i++)
+        for (int i = 4; i < cand.Count; i++)
         {
             aaa = levelRoomList[cand[i]];
             levelRoomList[cand[i]] = levelRoomList[cand[i]].ChangeType(new ResourceRoom(this, aaa.left, aaa.bottom, aaa.right, aaa.top));
@@ -143,8 +145,11 @@ public class Level : AbstractDungeonGenerator
         GameObject e = Instantiate(square);
         e.transform.position = new Vector3(levelRoomList[rand].center().x, levelRoomList[rand].center().y, 1);*/
 
+
+
         int randRoom = UnityEngine.Random.Range(1, this.levelRoomList.Count - 1);
-        Vector3 b = GridToWorld(this.levelRoomList[randRoom].center());
+        GridNode tempNode = this.levelRoomList[randRoom].QuickFreeSpot();
+        Vector3 b = GridToWorld( new Vector2Int( tempNode.gridX, tempNode.gridY));
 
         ghost.transform.position = new Vector3(b.x,b.y,0);
     }
