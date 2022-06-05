@@ -5711,7 +5711,7 @@ PrefabInstance:
       objectReference: {fileID: 1741115396}
     - target: {fileID: -153027970279191130, guid: fdb556612b9aa654bb0e1161c203660b, type: 3}
       propertyPath: speed
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -153027970279191130, guid: fdb556612b9aa654bb0e1161c203660b, type: 3}
       propertyPath: playerR
@@ -6459,7 +6459,7 @@ MonoBehaviour:
   - name: sword
     category: weapon
     weight: 1
-    damage: 25
+    damage: 10
     sprite: {fileID: 21300000, guid: 7df5bc02e89792e428ca307c03343f6d, type: 3}
   - name: heart
     category: heal

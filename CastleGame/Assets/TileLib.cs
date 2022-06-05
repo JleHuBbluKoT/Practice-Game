@@ -10,7 +10,7 @@ public class TileLib : MonoBehaviour
     [SerializeField]
     public Tilemap roomTileMapF, roomTileMapW;
     [SerializeField]
-    public TileBase mud, wallTile, floorDecorative, grass, grassSpecial, woodFloor;
+    public TileBase mud, wallTile, floorDecorative, grass, grassSpecial, woodFloor, black;
 
     public void PaintLevel(Level level)
     {
@@ -33,6 +33,8 @@ public class TileLib : MonoBehaviour
                     OpenTilePainter.PaintSingleTile(roomTileMapF, grassSpecial, node.worldPos, globalGrid.transform); break;
                 case "WALL":
                     OpenTilePainter.PaintSingleTile(roomTileMapW, wallTile, node.worldPos, globalGrid.transform); break;
+                case "BLACK":
+                    OpenTilePainter.PaintSingleTile(roomTileMapW, black, node.worldPos, globalGrid.transform); break;
                 default:
                     OpenTilePainter.PaintSingleTile(roomTileMapF, mud, node.worldPos, globalGrid.transform);
                 break;

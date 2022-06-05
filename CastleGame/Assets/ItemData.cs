@@ -65,7 +65,11 @@ public class ItemData : MonoBehaviour
                             Destroy(hit.transform.gameObject);
                         }
                     }
-                    Destroy(this.gameObject);
+                    if (ID == 0)
+                    {
+                        Destroy(this.gameObject);
+                    }
+                    
                 }
 
                 if (hit.collider.tag == "ExitDoor" && ID == 2)

@@ -48,7 +48,7 @@ public class Level : AbstractDungeonGenerator
             {
                 Vector2Int coords = new Vector2Int(originPoint.x + x, originPoint.y + y);
                 bool walkable = true;
-                grid[x, y] = new GridNode(walkable, coords, x, y, "DECO");
+                grid[x, y] = new GridNode(walkable, coords, x, y, "BLACK");
                 grid[x, y].gCost = 100;
             }
         }

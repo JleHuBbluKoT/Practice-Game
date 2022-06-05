@@ -8,7 +8,7 @@ public class GhostBehaviour : Creature
     float elapsed = 0f;
     float lookCooldown = 0f;
     //float angryCooldown = 0f;
-    public float speed = 1f;
+    public float speed = 4.5f;
     public float awareness = 0;
     //bool pathfindChase = false;
     bool longRangeChase = false;
@@ -164,7 +164,7 @@ public class GhostBehaviour : Creature
          elapsed = 0f;
          lookCooldown = 0f;
 
-         speed = 1f;
+         speed = 4.5f;
          awareness = 0;
 
          longRangeChase = false;
