@@ -7,6 +7,7 @@ using System;
 public class Level : AbstractDungeonGenerator
 {
     [SerializeField]
+    public GameObject ghost;
     public TileLib library;
     public GameObjectLib objectLib;
     /*
@@ -101,7 +102,10 @@ public class Level : AbstractDungeonGenerator
         GameObject e = Instantiate(square);
         e.transform.position = new Vector3(levelRoomList[rand].center().x, levelRoomList[rand].center().y, 1);*/
 
+        int randRoom = UnityEngine.Random.Range(1, this.levelRoomList.Count - 1);
+        Vector3 b = GridToWorld(this.levelRoomList[randRoom].center());
 
+        ghost.transform.position = new Vector3(b.x,b.y,0);
     }
 
     private List<Vector2Int> directionsList = new List<Vector2Int>

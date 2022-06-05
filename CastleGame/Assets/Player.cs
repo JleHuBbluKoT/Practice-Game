@@ -97,7 +97,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.localScale = new Vector3(2,2,2);
 
         if (isPlaying)
         {

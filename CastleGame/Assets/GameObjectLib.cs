@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameObjectLib : MonoBehaviour
 {
     public GameObject interactiblesLayer;
+    public GameObject junk;
     public GameObject door;
     
 

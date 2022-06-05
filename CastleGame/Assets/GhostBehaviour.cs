@@ -68,17 +68,6 @@ public class GhostBehaviour : Creature
             }
         }
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, 2);
-        foreach (var item in colliders) {
-            if (item.transform.tag == "Interactible") {
-                item.SendMessage("ApplyDamage", 20f);
-            }
-
-        }
-
-        
-
-
 
         if (isCharging && (chargingCooldown == 0)) {
             charging += Time.deltaTime;
@@ -86,9 +75,20 @@ public class GhostBehaviour : Creature
         if (charging > 2f)
         {
             charging = 0;
-            chargingCooldown = 3f;
+            chargingCooldown = 1f;
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, 3);
+            foreach (var item in colliders)
+            {
+                Debug.Log(item.transform.tag);
+                if (item.transform.tag == "Creature") {
+                    item.SendMessage("ApplyDamage", 20f);
+                }
+
+            }
+
+            /*
             GameObject e = Instantiate(AOE);
-            e.transform.position = transform.position;
+            e.transform.position = transform.position;*/
         }
 
 
