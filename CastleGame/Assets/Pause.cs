@@ -16,7 +16,7 @@ public class Pause : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -71,6 +71,8 @@ public class Pause : MonoBehaviour
                         {
                             isAsking = false;
                             isReseting = false;
+                            GameObject.Find("ResetSure").transform.localScale = new Vector3(0f, 0f, 0f);
+                            GameObject.Find("ExitSure").transform.localScale = new Vector3(0f, 0f, 0f);
                             resetter.GetComponent<StartingSequence>().StartGame();
                         }
                         if (mouseObject.name == "ExitBt" && !isReseting)
@@ -199,7 +201,7 @@ public class Pause : MonoBehaviour
         if (isPlaying)
         {
             Stop();
-        } 
+        }
         else
         {
             if (holdItem.ID == -1)
@@ -213,7 +215,7 @@ public class Pause : MonoBehaviour
     public void Stop()
     {
         var mc = GameObject.FindWithTag("MainCamera").transform.position;
-        mc = new Vector3(mc.x, mc.y, -9f);
+        mc = new Vector3(mc.x, mc.y, -9.01f);
         GameObject.Find("PauseMenu").transform.position = mc;
         GameObject.Find("Player").GetComponent<Player>().isPlaying = false;
         Rigidbody2D rb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
@@ -233,6 +235,12 @@ public class Pause : MonoBehaviour
     //Resume playing
     public void Resume()
     {
+        isAsking = false;
+        isReseting = false;
+        isExiting = false;
+        GameObject.Find("ResetSure").transform.localScale = new Vector3(0f, 0f, 0f);
+        GameObject.Find("ExitSure").transform.localScale = new Vector3(0f, 0f, 0f);
+
         GameObject.Find("PauseMenu").transform.position = new Vector3(-100, -100, -100);
         GameObject.Find("Player").GetComponent<Player>().isPlaying = true;
 
@@ -269,7 +277,7 @@ public class Pause : MonoBehaviour
                 obj.transform.parent = GameObject.Find("SlotMenu" + i1.ToString()).transform;
                 obj.transform.localScale = new Vector3(1f, 1f, 1f);
                 obj.name = "SlotItem" + i1.ToString();
-                
+
                 if (itemList[inventory[i1].ID].sprite != null)
                 {
                     obj.transform.Find("SlotItemSprite").GetComponent<SpriteRenderer>().sprite = itemList[inventory[i1].ID].sprite;

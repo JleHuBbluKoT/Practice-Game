@@ -32,4 +32,9 @@ public class ForestRoom : Room
             }
         }
     }
+
+    public override GridNode QuickFreeSpot()
+    {
+        return grid.grid[center().x, center().y];
+    }
 }

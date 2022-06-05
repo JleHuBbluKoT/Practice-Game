@@ -73,5 +73,42 @@ public abstract class Room : Rect
         }
     }
 
+    public abstract GridNode QuickFreeSpot();
+
+    public GridNode freeSpot()
+    {
+        List<GridNode> canAccess = new List<GridNode>();
+        HashSet<GridNode> haveAccess = new HashSet<GridNode>();
+        foreach (var neighbour in connectedRooms)
+        {
+            Rect interWalls = this.intersect(neighbour);
+            Vector2Int center = interWalls.center();
+            canAccess.Add(grid.grid[center.x, center.y]);
+        }
+
+        int danger = 0;
+        while (canAccess.Count > 0 && danger < 200) {
+            danger++;
+            foreach (var neigh in grid.GetNeighbourds(canAccess[0])) {
+                if (neigh.gridX > left && neigh.gridX < right)  {
+                    if (neigh.gridY > bottom && neigh.gridY < top) {
+                        if (neigh.walkable == true && !haveAccess.Contains(neigh)) {
+                            canAccess.Add(neigh);
+                        }
+                    }
+                }
+            }
+            haveAccess.Add(canAccess[0]);
+            canAccess.Remove(canAccess[0]);
+        }
+        canAccess.Clear();
+        canAccess.AddRange(haveAccess);
+
+        Debug.Log(canAccess.Count);
+
+        int rand = UnityEngine.Random.Range(0, canAccess.Count - 1);
+
+        return canAccess[rand];
+    }
 
 }

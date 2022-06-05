@@ -7,9 +7,20 @@ public class GameObjectLib : MonoBehaviour
     public GameObject interactiblesLayer;
     public GameObject junk;
     public GameObject door;
-    
+    public GameObject keyStorage;
 
-    
+
+
+
+    public void PlaceKeyStorage(Vector2Int keyPos, Level level)
+    {
+        GameObject e = Instantiate(keyStorage);
+        e.transform.parent = interactiblesLayer.transform;
+        e.transform.position = new Vector3((keyPos.x + 0.5f) * level.library.globalGrid.transform.localScale.x, (keyPos.y + 0.5f) * level.library.globalGrid.transform.localScale.y, 0);
+        e.transform.localScale = new Vector3(level.library.globalGrid.transform.localScale.x, level.library.globalGrid.transform.localScale.y, level.library.globalGrid.transform.localScale.z);
+        associate(new Vector2Int(keyPos.x, keyPos.y), level, e);
+        level.grid[keyPos.x, keyPos.y].walkable = false;
+    }
 
     public void PlaceJunk(Vector2Int junkPos, Level level)
     {

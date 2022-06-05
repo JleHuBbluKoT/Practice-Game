@@ -22,4 +22,8 @@ public class BasicRoom : Room
         RoomPainterBrushes.LevelRectangle(grid, left, bottom, right, top, "WALL");
         RoomPainterBrushes.LevelRectangle(grid, left + 1, bottom + 1, right - 1, top - 1, "WOODFLOOR");
     }
+    public override GridNode QuickFreeSpot()
+    {
+        return grid.grid[center().x, center().y];
+    }
 }

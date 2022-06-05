@@ -84,7 +84,10 @@ public class Creature : MonoBehaviour
             }
         }
         //Debug.Log("Не получилось");
-        return null;
+        path = new List<GridNode>();
+        path.Clear();
+        path.Add(level.grid[start.x, start.y]);
+        return path;
     }
 
     public List<GridNode> PathSimplification(List<GridNode> path ) {

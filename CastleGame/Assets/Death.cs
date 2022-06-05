@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Death : MonoBehaviour
 {
+    public GameObject resetter;
     public static bool isPlaying;
     public static bool isAsking = false;
 
@@ -11,7 +12,7 @@ public class Death : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -22,7 +23,7 @@ public class Death : MonoBehaviour
         if (!playerData.isAlive)
         {
             var mc = GameObject.FindWithTag("MainCamera").transform.position;
-            mc = new Vector3(mc.x, mc.y, -9f);
+            mc = new Vector3(mc.x, mc.y, -9.01f);
             GameObject.Find("DeathMenu").transform.position = mc;
             GameObject.Find("Player").GetComponent<Player>().isPlaying = false;
             Rigidbody2D rb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
@@ -31,7 +32,6 @@ public class Death : MonoBehaviour
             var cameraSize = GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize * 4.25f;
             GameObject.Find("DeathMenu").transform.localScale = new Vector3(cameraSize, cameraSize, 1f);
 
-            GameObject.Find("PauseMenu").transform.position = new Vector3(-100, -100, -100);
         }
 
 
@@ -39,8 +39,21 @@ public class Death : MonoBehaviour
         {
             if (!isAsking && Input.GetKeyDown(KeyCode.Escape) && GameObject.Find("Player").GetComponent<Player>().cheatsTurnedOn)
             {
+                isAsking = false;
                 GameObject.Find("DeathMenu").transform.position = new Vector3(-250, -100, -100);
-                playerData.Resurrect();
+                GameObject.Find("DeathExitSure").transform.localScale = new Vector3(0f, 0f, 0f);
+                GameObject.Find("DeathMenu").transform.position = new Vector3(-100, -100, -100);
+                GameObject.Find("Player").GetComponent<Player>().isPlaying = true;
+                GameObject.Find("Player").GetComponent<Player>().Resurrect();
+
+            }
+            else
+            {
+                if (isAsking && Input.GetKeyDown(KeyCode.Escape))
+                {
+                    GameObject.Find("DeathExitSure").transform.localScale = new Vector3(0f, 0f, 0f);
+                    isAsking = false;
+                }
             }
 
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -57,9 +70,9 @@ public class Death : MonoBehaviour
                         if (mouseObject.name == "DeathResetBt")
                         {
                             //Resurrect in new level
-                            GameObject.Find("DeathMenu").transform.position = new Vector3(-250, -100, -100);
-                            Debug.Log("sdgs");
-                            playerData.Resurrect();
+                            isAsking = false;
+                            GameObject.Find("DeathExitSure").transform.localScale = new Vector3(0f, 0f, 0f);
+                            resetter.GetComponent<StartingSequence>().StartGame();
                         }
                         if (mouseObject.name == "DeathExitBt")
                         {
@@ -80,11 +93,6 @@ public class Death : MonoBehaviour
                 }
             }
 
-            if (isAsking && Input.GetKeyDown(KeyCode.Escape))
-            {
-                GameObject.Find("DeathExitSure").transform.localScale = new Vector3(0f, 0f, 0f);
-                isAsking = false;
-            }
         }
 
     }

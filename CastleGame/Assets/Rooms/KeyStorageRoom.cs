@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiscRoom : Room
+public class KeyStorageRoom : Room
 {
-    public MiscRoom(Level _grid, int _left, int _bottom, int _right, int _top)
+    public KeyStorageRoom(Level _grid, int _left, int _bottom, int _right, int _top)
     {
         grid = _grid;
         bottom = _bottom;
         left = _left;
         top = _top;
         right = _right;
-    }
 
+    }
     public override void GetExits()
     {
 
@@ -21,11 +21,18 @@ public class MiscRoom : Room
     {
         RoomPainterBrushes.LevelRectangle(grid, left, bottom, right, top, "WALL");
         RoomPainterBrushes.LevelRectangle(grid, left + 1, bottom + 1, right - 1, top - 1, "WOODFLOOR");
-        RoomPainterBrushes.LevelRectangle(grid, center().x - 2, center().y - 2, center().x + 2, center().y + 2, "MUD");
-        RoomPainterBrushes.LevelRectangle(grid, center().x - 1, center().y - 1, center().x + 1, center().y + 1, "GRASS");
+
+        RoomPainterBrushes.LevelRectangle(grid, center().x - 2, center().y - 2, center().x + 2, center().y + 2, "WALL");
+        RoomPainterBrushes.LevelRectangle(grid, center().x - 1, center().y - 1, center().x + 1, center().y + 1, "WOODFLOOR");
+
+        grid.objectLib.PlaceKeyStorage(new Vector2Int(center().x, center().y - 1), grid);
+
     }
+
     public override GridNode QuickFreeSpot()
     {
-        return grid.grid[center().x, center().y];
+        return freeSpot();
     }
+
+
 }

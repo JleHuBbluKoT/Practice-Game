@@ -562,7 +562,7 @@ public class Player : MonoBehaviour
     {
         inventory.Clear();
         inventory.Add(newSlot(1, 10));
-        inventory.Add(newSlot(2, 10));
+        //inventory.Add(newSlot(2, 10));
         inventory.Add(newSlot(3, 10));
         inventory.Add(newSlot(0, 10));
     }

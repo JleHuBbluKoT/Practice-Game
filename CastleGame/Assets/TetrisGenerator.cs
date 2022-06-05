@@ -6,11 +6,11 @@ using System.Linq;
 public class TetrisGenerator
 {
   
-    public List<Room> GenerateRooms(Level level, Vector2Int center, int roomCount = 25, int minW = 5, int maxW = 15, int minH = 5, int maxH = 15)
+    public List<Room> GenerateRooms(Level level, Vector2Int center, int roomCount = 25, int minW = 7, int maxW = 15, int minH = 7, int maxH = 15)
     {
         List<Room> settledRooms = new List<Room>();
-        Vector2Int castleBL = new Vector2Int(level.sizeX / 8, level.sizeY / 8);
-        Vector2Int castleTR = new Vector2Int(level.sizeX / 8 * 7, level.sizeY / 8 * 7);
+        Vector2Int castleBL = new Vector2Int(level.sizeX / 10, level.sizeY / 10);
+        Vector2Int castleTR = new Vector2Int(level.sizeX / 10 * 9, level.sizeY / 10 * 9);
 
         
         

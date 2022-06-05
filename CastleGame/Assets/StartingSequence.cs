@@ -9,6 +9,7 @@ public class StartingSequence : MonoBehaviour
     public GameObject square;
     public Items items;
     public GameObject pause;
+    public GameObject death;
     void Start()
     {
         StartGame();
@@ -16,10 +17,13 @@ public class StartingSequence : MonoBehaviour
 
     public void StartGame()
     {
-        pause.transform.position = new Vector3(-100,-100,-9);
         
-        level.ghost.SetActive(false);
+        pause.transform.position = new Vector3(-100, -100, -9);
+        death.transform.position = new Vector3(-250, -100, -9);
+
         level.ghost.GetComponent<GhostBehaviour>().Restart();
+        level.ghost.SetActive(false);
+        //square.SetActive(false);
 
         items.ItemsKill();
 

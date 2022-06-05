@@ -52,7 +52,8 @@ public class GhostBehaviour : Creature
             if (pathNodes.Count == 0) {// если нет цели, отправляет в случайную комнату
                 Vector2Int a = new Vector2Int(level.WorldToGrid(this.transform.position).gridX, level.WorldToGrid(this.transform.position).gridY);
                 int randRoom = UnityEngine.Random.Range(0, level.levelRoomList.Count - 1);
-                Vector2Int b = level.levelRoomList[randRoom].center();
+                GridNode bbb = level.levelRoomList[randRoom].QuickFreeSpot();
+                Vector2Int b = new Vector2Int(bbb.gridX, bbb.gridY);
                 pathNodes = AStar(a, b);
             }
         }

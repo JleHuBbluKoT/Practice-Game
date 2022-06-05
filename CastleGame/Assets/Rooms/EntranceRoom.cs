@@ -25,4 +25,9 @@ public class EntranceRoom : Room
         RoomPainterBrushes.Line(grid, center().x - 2, center().y - 2, center().x + 2, center().y + 2, "WALL");
         RoomPainterBrushes.Line(grid, center().x - 2, center().y + 2, center().x + 2, center().y - 2, "WALL");
     }
+
+    public override GridNode QuickFreeSpot()
+    {
+        return grid.grid[center().x, center().y];
+    }
 }

@@ -31,4 +31,9 @@ public class ResourceRoom : Room
 
         grid.objectLib.PlaceJunk(new Vector2Int(center().x - 1, center().y + 1), grid);
     }
+
+    public override GridNode QuickFreeSpot()
+    {
+        return grid.grid[center().x, center().y];
+    }
 }

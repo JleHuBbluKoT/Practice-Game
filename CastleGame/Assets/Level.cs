@@ -61,29 +61,51 @@ public class Level : AbstractDungeonGenerator
 
         HashSet<int> randRooms = new HashSet<int>();
         int emerCount = 0;
-        while (emerCount < 40 && randRooms.Count < 4)
+        /*
+        for (int i = 0; i < levelRoomList.Count; i++) {
+            if (levelRoomList[i].Width() > 8 && levelRoomList[i].Height() > 8) {
+                Room tempRoom = levelRoomList[i];
+                levelRoomList[i] = levelRoomList[i].ChangeType(new ExitRoom(this, tempRoom.left, tempRoom.bottom, tempRoom.right, tempRoom.top));
+                return;
+            }
+        }*/
+
+        while (emerCount < 160 && randRooms.Count < 8)
         {
             emerCount++;
             randRooms.Add(UnityEngine.Random.Range(0, this.levelRoomList.Count - 1));
         }
         List<int> cand = new List<int>();
         cand.AddRange(randRooms);
-        for (int i = 0; i < cand.Count; i++)
+
+        Graph.ConnectionLogic(levelRoomList, this, true);
+
+        for (int i = 0; i < levelRoomList.Count; i++)
         {
-            Room aaa = levelRoomList[cand[i]];
+            if (levelRoomList[i].connectedRooms.Count == 0) { levelRoomList.RemoveAt(i); }
+        }
+
+        for (int i = 0; i < levelRoomList.Count; i++)
+        {
+            levelRoomList[i].indexRL = i;
+        }
+
+        
+
+        Room aaa = levelRoomList[cand[0]];
+        levelRoomList[cand[0]] = levelRoomList[cand[0]].ChangeType(new KeyStorageRoom(this, aaa.left, aaa.bottom, aaa.right, aaa.top));
+        aaa = levelRoomList[cand[1]];
+        levelRoomList[cand[1]] = levelRoomList[cand[1]].ChangeType(new KeyStorageRoom(this, aaa.left, aaa.bottom, aaa.right, aaa.top));
+        aaa = levelRoomList[cand[2]];
+        levelRoomList[cand[2]] = levelRoomList[cand[2]].ChangeType(new ExitRoom(this, aaa.left, aaa.bottom, aaa.right, aaa.top));
+
+        for (int i = 3; i < cand.Count; i++)
+        {
+            aaa = levelRoomList[cand[i]];
             levelRoomList[cand[i]] = levelRoomList[cand[i]].ChangeType(new ResourceRoom(this, aaa.left, aaa.bottom, aaa.right, aaa.top));
         }
 
 
-        Graph.ConnectionLogic(levelRoomList, this);
-
-        for (int i = 0; i < levelRoomList.Count; i++) {
-            if (levelRoomList[i].connectedRooms.Count == 0) {  levelRoomList.RemoveAt(i); }
-        }
-
-        for (int i = 0; i < levelRoomList.Count; i++) {
-            levelRoomList[i].indexRL = i;
-        }
 
         Graph.ConnectionLogic(levelRoomList, this, true);
 
@@ -100,6 +122,8 @@ public class Level : AbstractDungeonGenerator
             item.GetTiles();
             //Debug.Log(item.indexRL);
         }
+
+        levelRoomList[cand[0]].freeSpot();
 
         DoorPropagation.PropagateDoors(levelRoomList, this);
         List<Room> usedRoom = new List<Room>();
