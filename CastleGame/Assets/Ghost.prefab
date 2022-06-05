@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7178941379529421727}
   - component: {fileID: 7178941379529421720}
-  - component: {fileID: 7178941379529421721}
+  - component: {fileID: -153027970279191130}
   - component: {fileID: 131995953495627530}
-  - component: {fileID: -304018451799102617}
-  m_Layer: 0
+  - component: {fileID: -8217035099598767874}
+  m_Layer: 2
   m_Name: Ghost
-  m_TagString: Untagged
+  m_TagString: Creature
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7178941379529421721
+--- !u!114 &-153027970279191130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,14 +94,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7178941379529421722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db12195156ada2c49952281e10f18fe2, type: 3}
+  m_Script: {fileID: 11500000, guid: 51d33f5f1afd6b4469202e099d29cbac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 0}
   playerR: {fileID: 0}
-  state: 
-  speed: 1
-  rb: {fileID: 0}
+  Invincible: 0
+  health: 100
+  MaxHealth: 100
+  AOE: {fileID: 0}
+  speed: 5
+  awareness: 0
 --- !u!50 &131995953495627530
 Rigidbody2D:
   serializedVersion: 4
@@ -117,14 +120,14 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!61 &-304018451799102617
-BoxCollider2D:
+  m_Constraints: 4
+--- !u!58 &-8217035099598767874
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -137,15 +140,5 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.1

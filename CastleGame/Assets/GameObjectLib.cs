@@ -8,6 +8,8 @@ public class GameObjectLib : MonoBehaviour
     public GameObject door;
     
 
+    
+
 
     public void PlaceDoor( Vector2Int dorPos, bool horizontal, Level level ) {
         GameObject e = Instantiate(door);

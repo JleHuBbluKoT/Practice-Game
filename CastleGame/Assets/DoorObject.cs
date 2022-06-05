@@ -9,6 +9,7 @@ public class DoorObject : Interactible
 
     public bool isOpen;
     public bool horizontal;
+    public float ghostCounter;
     
     void Start() {
         if (horizontal) {
@@ -16,9 +17,10 @@ public class DoorObject : Interactible
         }
     }
 
+
     public override void Interact()
     {
-        if (isOpen) {
+        if (isOpen && ghostCounter ==0) {
             this.Close();
             Wait(1f);
         }
@@ -28,7 +30,14 @@ public class DoorObject : Interactible
         }
     }
 
-    void Update() {
+    public void GhostINteract() {
+        ghostCounter = 3f;
+        Open();
+    }
+
+    void Update() 
+    {
+        ghostCounter = Mathf.Clamp( ghostCounter - Time.deltaTime, 0, 3 );
     }
     public void Open() {
         isOpen = true;
@@ -54,5 +63,8 @@ public class DoorObject : Interactible
     IEnumerator Wait(float sec)
     {
         yield return new WaitForSeconds(sec);
+    }
+
+    public override void ApplyDamage(float Damage) {
     }
 }

@@ -326,8 +326,7 @@ public class Player : MonoBehaviour
 
             }
 
-            for (int i1 = 0; i1 < inventory.Count; i1++)
-            {
+            for (int i1 = 0; i1 < inventory.Count; i1++) {
                 if (inventory[i1].amount <= 0)
                 {
                     inventory.RemoveAt(i1);
@@ -341,6 +340,12 @@ public class Player : MonoBehaviour
 
     //<HEALTH> void
     //Change health points amount
+
+    public void ApplyDamage(float Damage)
+    {
+        HealthChange(-Damage);
+    }
+
     public void HealthChange(float amount)
     {
         health.current += amount;

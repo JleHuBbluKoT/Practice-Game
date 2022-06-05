@@ -7,4 +7,6 @@ public abstract class Interactible : MonoBehaviour
     public GridNode associatedNode;
     public Level level;
     public abstract void Interact();
+
+    public abstract void ApplyDamage(float Damage);
 }

@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: -9092319907573531060}
   m_Layer: 0
   m_Name: Door
-  m_TagString: Untagged
+  m_TagString: Interactible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -307,6 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3bd5caf89cfb64aa88ee53dc63f616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: {fileID: 0}
   door1: {fileID: 5184752336823301678}
   door2: {fileID: 4005156721509101370}
   isOpen: 0

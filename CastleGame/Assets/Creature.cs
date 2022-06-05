@@ -8,42 +8,25 @@ public class Creature : MonoBehaviour
 {
     public Level level;
     public GameObject playerR;
-    public string state;
+    public bool Invincible;
+    public float health = 100;
+    public int MaxHealth = 100;
+
+
+
     public List<GridNode> pathNodes;
-    
-
-    public float speed = 2f;
-    public Rigidbody2D rb;
+    //protected string state;
+    //protected float speed;
+    //Rigidbody2D rb;
     void Start() {
-        rb = GetComponent<Rigidbody2D>(); //rb equals the rigidbody on the player    
+        //rb = GetComponent<Rigidbody2D>(); //rb equals the rigidbody on the player    
 
-        pathNodes = new List<GridNode>();
+        //pathNodes = new List<GridNode>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown( "r" )) {
-            Vector2Int a =  new Vector2Int(level.WorldToGrid(this.transform.position).gridX, level.WorldToGrid(this.transform.position).gridY);
-            Vector2Int b =  new Vector2Int(level.WorldToGrid(playerR.transform.position).gridX, level.WorldToGrid(playerR.transform.position).gridY);
-            pathNodes = AStar(a, b);
-        }
-
-        if (pathNodes.Count > 0) {
-            Vector2 nextNodePost = level.GridToWorld(new Vector2Int(pathNodes[0].gridX, pathNodes[0].gridY));
-            rb.velocity = angleBetweenPoints(this.transform.position, nextNodePost) * speed;
-
-            Vector2 targetNode = level.GridToWorld(new Vector2Int(pathNodes[0].gridX, pathNodes[0].gridY));
-
-
-            if ( (Math.Abs(targetNode.x - transform.position.x) < 0.10f ) && (Math.Abs(targetNode.y - transform.position.y) < 0.10f))
-            {
-                pathNodes.RemoveAt(0);
-            }
-        } else
-        {
-            rb.velocity = Vector2.zero;
-        }
     }
 
     public Vector2 angleBetweenPoints(Vector2 from, Vector2 to)
@@ -57,7 +40,7 @@ public class Creature : MonoBehaviour
     }
 
 
-    public List<GridNode> AStar(Vector2Int start, Vector2Int end)
+    public List<GridNode> AStar(Vector2Int start, Vector2Int end, bool deleteUnnecesary = true)
     {
         List<GridNode> path;
         List<GridNode> openList = new List<GridNode>();
@@ -77,10 +60,13 @@ public class Creature : MonoBehaviour
             closedList.Add(currentNode);
 
             if (currentNode == endNode) {
-                Debug.Log("Path found!");
+                //Debug.Log("Path found!");
                 path = RetracePath(level.grid[start.x, start.y], endNode);
-                path = PathSimplification(path);
-                Debug.Log(path.Count);
+                if (deleteUnnecesary)
+                {
+                    path = PathSimplification(path);
+                }
+                
                 return path;
             }
 
@@ -97,7 +83,7 @@ public class Creature : MonoBehaviour
                 }
             }
         }
-        Debug.Log("Не получилось");
+        //Debug.Log("Не получилось");
         return null;
     }
 
@@ -179,6 +165,21 @@ public class Creature : MonoBehaviour
         int dY = Mathf.Abs(y - target.y);
         return Mathf.Min(dX, dY) * 4 + Mathf.Max(dX, dY) * 10;
     }
+
+    public float distance(GameObject other)
+    {
+        return Mathf.Sqrt((float)Math.Pow(transform.position.x - other.transform.position.x, 2) + (float)Math.Pow(transform.position.y - other.transform.position.y, 2));
+    }
+
+    public void ApplyDamage(float Damage)
+    {
+        if (!Invincible)
+        {
+            health = Mathf.Clamp(health - Damage, 0, MaxHealth);
+        }
+
+    }
+
 }
 /*
                 foreach (var item in closedList) {
