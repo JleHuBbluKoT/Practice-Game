@@ -52,7 +52,7 @@ MonoBehaviour:
   owner: -2
   force: 1
   pickable: 1
-  hasCollision: 0
+  hasCollision: 1
 --- !u!212 &202648853582221261
 SpriteRenderer:
   m_ObjectHideFlags: 0

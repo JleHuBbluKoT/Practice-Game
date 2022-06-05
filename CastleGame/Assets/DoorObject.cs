@@ -42,21 +42,21 @@ public class DoorObject : Interactible
     public void Open() {
         isOpen = true;
         if (horizontal) {
-            door2.transform.position = new Vector3(this.transform.position.x - 1.5f, this.transform.position.y, 0);
-            door1.transform.position = new Vector3(this.transform.position.x + 1.5f, this.transform.position.y, 0);
+            door2.transform.position = new Vector3(this.transform.position.x - 1.5f, this.transform.position.y, -9);
+            door1.transform.position = new Vector3(this.transform.position.x + 1.5f, this.transform.position.y, -9);
         } else {
-            door1.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 1.5f, 0);
-            door2.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1.5f, 0);
+            door1.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 1.5f, -9);
+            door2.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1.5f, -9);
         }    
     }
     public void Close() {
         isOpen = false;
         if (horizontal) {
-            door2.transform.position = new Vector3(this.transform.position.x - 0.5f, this.transform.position.y, 0);
-            door1.transform.position = new Vector3(this.transform.position.x + 0.5f, this.transform.position.y, 0);
+            door2.transform.position = new Vector3(this.transform.position.x - 0.5f, this.transform.position.y, -9);
+            door1.transform.position = new Vector3(this.transform.position.x + 0.5f, this.transform.position.y, -9);
         } else {
-            door1.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, 0);
-            door2.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.5f, 0);
+            door1.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, -9);
+            door2.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.5f, -9);
         }
     }
 

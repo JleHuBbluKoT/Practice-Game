@@ -85,10 +85,10 @@ public class Player : MonoBehaviour
 
         //Bar resize
         var cameraData = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.85f, 5f);
+        GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.85f, 1f);
         GameObject.Find("Bar").transform.localScale = new Vector3(cameraData.orthographicSize * 1.5f, cameraData.orthographicSize * 0.2f, 1f);
 
-        GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 5f);
+        GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 1f);
         GameObject.Find("MainSlots").transform.localScale = new Vector3(cameraData.orthographicSize * 1f, cameraData.orthographicSize * 0.2f, 1f);
 
 

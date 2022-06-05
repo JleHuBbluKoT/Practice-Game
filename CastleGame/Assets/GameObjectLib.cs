@@ -10,6 +10,10 @@ public class GameObjectLib : MonoBehaviour
 
     
 
+    public void PlaceJunk(Vector2Int junkPos, Level level)
+    {
+
+    }
 
     public void PlaceDoor( Vector2Int dorPos, bool horizontal, Level level ) {
         GameObject e = Instantiate(door);
