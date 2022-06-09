@@ -9,7 +9,7 @@ public class StartScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameObject.Find("Bar").transform.localScale = new Vector3(0f, 0f, 0f);
     }
 
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class StartScreen : MonoBehaviour
                 {
                     if (mouseObject.name == "StartStartBt")
                     {
-                        pause.GetComponent<Pause>().GameStarted = true;
+                        pause.GetComponent<Pause>().gameStarted = true;
                         resetter.GetComponent<StartingSequence>().StartGame();
                     }
                     if (mouseObject.name == "StartExitBt")

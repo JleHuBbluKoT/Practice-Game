@@ -17,6 +17,8 @@ public class StartingSequence : MonoBehaviour
 
     public void StartGame()
     {
+        GameObject.Find("Ghost").GetComponent<GhostBehaviour>().stopTime = 0f;
+
         //pause.GetComponent<Pause>().GameStarted = true;
         pause.transform.position = new Vector3(-100, -100, -9);
         death.transform.position = new Vector3(-250, -100, -9);

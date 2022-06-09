@@ -89,20 +89,53 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>(); //rb equals the rigidbody on the player    
 
+        isPlaying = false;
+        isAlive = false;
+
         //Bar resize
-        var cameraData = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.85f, 0.4f);
-        GameObject.Find("Bar").transform.localScale = new Vector3(cameraData.orthographicSize * 1.5f, cameraData.orthographicSize * 0.2f, 1f);
+        var isGameStarted = GameObject.Find("Pause").GetComponent<Pause>().gameStarted;
+        if (isGameStarted) {
+            var cameraData = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.6f, 0.4f);
+            GameObject.Find("Bar").transform.localScale = new Vector3(cameraData.orthographicSize * 1.5f, cameraData.orthographicSize * 0.2f, 1f);
 
-        GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 1f);
-        GameObject.Find("MainSlots").transform.localScale = new Vector3(cameraData.orthographicSize * 1f, cameraData.orthographicSize * 0.2f, 1f);
+            GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.6f, 0.4f);
+            GameObject.Find("MainSlots").transform.localScale = new Vector3(cameraData.orthographicSize * 1f, cameraData.orthographicSize * 0.2f, 1f);
 
-        DefaultInventory();
+
+            DefaultInventory();
+            isPlaying = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Chests Toggle
+        if ((Input.GetKeyDown("c") && Input.GetKey("h")) || (Input.GetKey("c") && Input.GetKeyDown("h")))
+        {
+            if (cheatsTurnedOn)
+            {
+                cheatsTurnedOn = false;
+            }
+            else
+            {
+                cheatsTurnedOn = true;
+            }
+        }
+
+        // Shapeless Toggle
+        if ((Input.GetKeyDown("e") && Input.GetKey("h")) || (Input.GetKey("e") && Input.GetKeyDown("h")))
+        {
+            if (isShapeless)
+            {
+                isShapeless = false;
+            }
+            else
+            {
+                isShapeless = true;
+            }
+        }
 
         if (isPlaying)
         {
@@ -110,7 +143,7 @@ public class Player : MonoBehaviour
 
             //Applying death due 0 or less healthpoints
 
-            
+
             if (isAlive)
             {
                 if (health.current <= 0f) {
@@ -278,6 +311,7 @@ public class Player : MonoBehaviour
 
             var a = transform.position;
             GameObject.FindWithTag("MainCamera").transform.position = new Vector3(a.x, a.y, -10);
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -0.1f);
 
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos[2] = 0;
@@ -468,9 +502,6 @@ public class Player : MonoBehaviour
 
 
 
-
-
-
             //<CHEATS>
             if (cheatsTurnedOn)
             {
@@ -555,10 +586,10 @@ public class Player : MonoBehaviour
         temperature.current = temperature.min + temperature.max;
 
         var cameraData = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.85f, 1f);
+        GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.85f, 0.6f);
         GameObject.Find("Bar").transform.localScale = new Vector3(cameraData.orthographicSize * 1.5f, cameraData.orthographicSize * 0.2f, 1f);
 
-        GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 1f);
+        GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 0.6f);
         GameObject.Find("MainSlots").transform.localScale = new Vector3(cameraData.orthographicSize * 1f, cameraData.orthographicSize * 0.2f, 1f);
     }
     //DEATH 
