@@ -60,7 +60,7 @@ public class ItemData : MonoBehaviour
                     Destroy(this.gameObject);
                 }
 
-                if (hit.collider.tag == "Creature" && (owner == -1 || owner == -3))
+                if (hit.collider.tag == "Creature" && (owner == -1 || owner == -3) && itemsData.list[ID].category == "weapon")
                 {
 
                     hit.collider.GetComponent<GhostBehaviour>().StopGhost(itemsData.list[ID].damage * 30f);
@@ -96,10 +96,13 @@ public class ItemData : MonoBehaviour
 
 
             var speedDecrease = GameObject.Find("ItemSpawn").GetComponent<Items>().speedDecrease;
-            currentSpeed -= speedDecrease;
-            if (currentSpeed < 0f)
+            if (currentSpeed > 0f)
             {
-                currentSpeed = 0f;
+                currentSpeed -= speedDecrease;
+                if (currentSpeed < 0f)
+                {
+                    currentSpeed = 0f;
+                }
             }
         }
     }

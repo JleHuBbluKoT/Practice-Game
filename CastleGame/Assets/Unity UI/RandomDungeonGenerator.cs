@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-[CustomEditor(typeof(AbstractDungeonGenerator), true)]
-public class RandomDungeonGenerator : Editor
+//[CustomEditor(typeof(AbstractDungeonGenerator), true)]
+public class RandomDungeonGenerator //: Editor
 {
+
     AbstractDungeonGenerator generator;
+    /*
     private void Awake()
     {
         generator = (AbstractDungeonGenerator)target;
@@ -26,7 +28,7 @@ public class RandomDungeonGenerator : Editor
         {
             generator.ClearObjects();
         }
-    }
+    }*/
 
 }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public bool isPlaying = true; //Pause
+    public bool isPlaying = false; //Pause
     public bool cheatsTurnedOn = false; //Cheats
     public bool isShapeless = false; //Shapeless
 
@@ -254,16 +254,25 @@ public class Player : MonoBehaviour
             }
 
             //<MOVEMENT> update
-            float xMove = Input.GetAxisRaw("Horizontal"); // d key changes value to 1, a key changes value to -1
-            float yMove = Input.GetAxisRaw("Vertical"); // w key changes value to 1, s key changes value to -1
 
-            rb.velocity = new Vector2(xMove, yMove) * speed * Health.percent; // Creates velocity in direction of value equal to keypress (WASD). rb.velocity.y deals with falling + jumping by setting velocity to y. Movement speed depends on healthbat percentage.
-
-            //Diagonal speed adjustment
-            if (xMove != 0 && yMove != 0)
+            if (isAlive)
             {
-                rb.velocity /= 1.41421356237f;
+                float xMove = Input.GetAxisRaw("Horizontal"); // d key changes value to 1, a key changes value to -1
+                float yMove = Input.GetAxisRaw("Vertical"); // w key changes value to 1, s key changes value to -1
+                rb.velocity = new Vector2(xMove, yMove) * speed * (Health.percent * 0.5f + 0.5f); // Creates velocity in direction of value equal to keypress (WASD). rb.velocity.y deals with falling + jumping by setting velocity to y. Movement speed depends on healthbat percentage.
+
+                //Diagonal speed adjustment
+                if (xMove != 0 && yMove != 0)
+                {
+                    rb.velocity /= 1.41421356237f;
+                }
             }
+            else
+            {
+                rb.velocity = new Vector2(0f, 0f);
+
+            }
+
 
             Vector2Int v = new Vector2Int(level.WorldToGrid(transform.position).gridX, level.WorldToGrid(transform.position).gridY);
 
@@ -299,7 +308,7 @@ public class Player : MonoBehaviour
                         throwDir[0] = Mathf.Sin(Mathf.Abs(throwDir[0] / diag) * Mathf.PI / 2) * Mathf.Sign(throwDir[0]);
                         throwDir[1] = Mathf.Sin(Mathf.Abs(throwDir[1] / diag) * Mathf.PI / 2) * Mathf.Sign(throwDir[1]);
 
-                        GameObject.FindWithTag("ItemSpawn").GetComponent<Items>().CreateItem(transform.position + throwSquare, inventory[activeSlot].ID, -1, 1f, throwDir * 1.1f);
+                        GameObject.FindWithTag("ItemSpawn").GetComponent<Items>().CreateItem(transform.position + throwSquare / 3f, inventory[activeSlot].ID, -1, 1f, throwDir * 1.1f);
                         inventory[activeSlot].amount -= 1;
                     }
                 }

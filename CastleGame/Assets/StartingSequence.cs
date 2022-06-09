@@ -17,7 +17,7 @@ public class StartingSequence : MonoBehaviour
 
     public void StartGame()
     {
-        
+        //pause.GetComponent<Pause>().GameStarted = true;
         pause.transform.position = new Vector3(-100, -100, -9);
         death.transform.position = new Vector3(-250, -100, -9);
 
@@ -36,8 +36,10 @@ public class StartingSequence : MonoBehaviour
 
         square.transform.position = new Vector3(b.x, b.y, 0);
 
+
         square.GetComponent<Player>().Resurrect();
         square.GetComponent<Player>().DefaultInventory();
+        square.GetComponent<Player>().isPlaying = true;
 
         level.ghost.SetActive(true);
 

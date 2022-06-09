@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Pause : MonoBehaviour
 {
+    public bool GameStarted = false;
     public GameObject resetter;
     public GameObject slotItemObject;
     public Player.Slot holdItem = new Player.Slot();
@@ -16,7 +17,7 @@ public class Pause : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        resetter.GetComponent<StartingSequence>().StartGame();
     }
 
     // Update is called once per frame
@@ -26,10 +27,14 @@ public class Pause : MonoBehaviour
         var isAlive = GameObject.Find("Player").GetComponent<Player>().isAlive;
 
         // Pressing escape
-        if (Input.GetKeyDown(KeyCode.Escape) && !isAsking && isAlive)
+        if (GameStarted)
         {
-            Toggle();
+            if (Input.GetKeyDown(KeyCode.Escape) && !isAsking && isAlive)
+            {
+                Toggle();
+            }
         }
+        
 
         if (!isPlaying && isAlive)
         {
