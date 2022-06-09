@@ -20,6 +20,9 @@ public class GhostBehaviour : Creature
     GridNode needNode;
 
     Rigidbody2D rb;
+
+    public float stopTime = 0f;
+
     void Start() {
         rb = GetComponent<Rigidbody2D>(); //rb equals the rigidbody on the player    
         pathNodes = new List<GridNode>();
@@ -28,128 +31,164 @@ public class GhostBehaviour : Creature
 
     void Update()
     {
-        
-        //ќткрытие и закрытие дверей
-        if (level.WorldToGrid(this.transform.position) != myNode) { 
-            if (myNode != null) {
-                if (myNode.associatedObject != null) {
-                    myNode.associatedObject.GetComponent<DoorObject>().Close();
-                }
-                myNode = level.WorldToGrid(this.transform.position);
-            }
-        }
+        var isPlaying = GameObject.Find("Player").GetComponent<Player>().isPlaying;
+        var isAlive = GameObject.Find("Player").GetComponent<Player>().isAlive;
 
-        if (myNode.associatedObject != null) {
-            myNode.associatedObject.GetComponent<DoorObject>().GhostINteract();
-        }
-        //  онец открыти€ закрыти€. Ёто ^^^ можно закомментить и тогда монстр не сможет открывать двери
-
-        chargingCooldown = Mathf.Clamp(chargingCooldown - Time.deltaTime, 0, 3);
-        elapsed += Time.deltaTime;
-        lookCooldown += Time.deltaTime;
-        if (elapsed >= 5f && awareness < 100) {
-            elapsed = 0;
-            if (pathNodes.Count == 0) {// если нет цели, отправл€ет в случайную комнату
-                Vector2Int a = new Vector2Int(level.WorldToGrid(this.transform.position).gridX, level.WorldToGrid(this.transform.position).gridY);
-                int randRoom = UnityEngine.Random.Range(0, level.levelRoomList.Count - 1);
-                GridNode bbb = level.levelRoomList[randRoom].QuickFreeSpot();
-                Vector2Int b = new Vector2Int(bbb.gridX, bbb.gridY);
-                pathNodes = AStar(a, b);
-            }
-        }
-        //Awareness - отвечает за то насколько бабайка осведомлена об игроке.  огда 100 - замечает его и нападает.
-        if (lookCooldown >= 0.1f) {
-            lookCooldown = 0;
-            if (CanSee(playerR)) {
-                awareness = Mathf.Clamp(awareness + 10 + 10 / Mathf.Clamp(distance(playerR), 1, 10) + awareness / 100, 0, 300);
-            }
-            else {
-                awareness = Mathf.Clamp(awareness - 2, 0, 300);
-            }
-        }
-
-
-        if (isCharging && (chargingCooldown == 0)) {
-            charging += Time.deltaTime;
-        }
-        if (charging > 2f)
+        if (isAlive && isPlaying && stopTime <= 0f)
         {
-            charging = 0;
-            chargingCooldown = 1f;
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, 3);
-            foreach (var item in colliders)
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -1f);
+
+            //ќткрытие и закрытие дверей
+            if (level.WorldToGrid(this.transform.position) != myNode)
             {
-                Debug.Log(item.transform.tag);
-                if (item.transform.tag == "Creature" || item.transform.tag == "Interactible") {
-                    item.SendMessage("ApplyDamage", 20f);
-                }
-
-            }
-
-            /*
-            GameObject e = Instantiate(AOE);
-            e.transform.position = transform.position;*/
-        }
-
-
-        if (awareness >= 100) {
-            pathNodes.Clear();
-            
-            if (distance(playerR) < 3.5f) {
-                //pathfindChase = false;
-                isCharging = true;
-            } 
-            //else {  pathfindChase = true; }
-            
-            //здесь был умный код но теперь он где-то внизу в комментах
-            
-            //else 
-            {
-                if (!longRangeChase) {
-                    pathNodes.Clear();
-                    Vector2Int a = new Vector2Int(level.WorldToGrid(this.transform.position).gridX, level.WorldToGrid(this.transform.position).gridY);
-                    Vector2Int b = new Vector2Int(level.WorldToGrid(playerR.transform.position).gridX, level.WorldToGrid(playerR.transform.position).gridY);
-                    angryNodes = AStar(a, b, false);
-                    if (angryNodes.Count > 2) {
-                        needNode = angryNodes[1];
-                    }
-                    longRangeChase = true;
-                } 
-                else {
-                    if (needNode != null) {
-                        Vector2 nextNodePost = level.GridToWorld(new Vector2Int(needNode.gridX, needNode.gridY));
-                        rb.velocity = angleBetweenPoints(this.transform.position, new Vector2(nextNodePost.x, nextNodePost.y)) * speed * Mathf.Clamp(awareness/200, 1, 1.50f);
-                        Vector2 targetNode = level.GridToWorld(new Vector2Int(needNode.gridX, needNode.gridY));
-                        if ((Math.Abs(targetNode.x - transform.position.x) < 0.2f) && (Math.Abs(targetNode.y - transform.position.y) < 0.20f)) {
-                            needNode = null;
-                            longRangeChase = false;
-                        }
-
-                    }
-                    else { longRangeChase = false; }
-                }
-                
-
-                
-            }
-            
-        }
-        else {
-            angryNodes.Clear();
-            needNode = null;
-            if (pathNodes.Count > 0)
-            {//Ќавигаци€ от ноды до ноды
-                Vector2 nextNodePost = level.GridToWorld(new Vector2Int(pathNodes[0].gridX, pathNodes[0].gridY));
-                rb.velocity = angleBetweenPoints(this.transform.position, nextNodePost) * speed * (100 - Mathf.Clamp(awareness, 0, 100)) / 100;
-                Vector2 targetNode = level.GridToWorld(new Vector2Int(pathNodes[0].gridX, pathNodes[0].gridY));
-                if ((Math.Abs(targetNode.x - transform.position.x) < 0.2f) && (Math.Abs(targetNode.y - transform.position.y) < 0.20f))
+                if (myNode != null)
                 {
-                    pathNodes.RemoveAt(0);
+                    if (myNode.associatedObject != null)
+                    {
+                        myNode.associatedObject.GetComponent<DoorObject>().Close();
+                    }
+                    myNode = level.WorldToGrid(this.transform.position);
                 }
             }
-            else { rb.velocity = Vector2.zero; }
-        }
 
+            if (myNode.associatedObject != null)
+            {
+                myNode.associatedObject.GetComponent<DoorObject>().GhostINteract();
+            }
+            //  онец открыти€ закрыти€. Ёто ^^^ можно закомментить и тогда монстр не сможет открывать двери
+
+            chargingCooldown = Mathf.Clamp(chargingCooldown - Time.deltaTime, 0, 3);
+            elapsed += Time.deltaTime;
+            lookCooldown += Time.deltaTime;
+            if (elapsed >= 5f && awareness < 100)
+            {
+                elapsed = 0;
+                if (pathNodes.Count == 0)
+                {// если нет цели, отправл€ет в случайную комнату
+                    Vector2Int a = new Vector2Int(level.WorldToGrid(this.transform.position).gridX, level.WorldToGrid(this.transform.position).gridY);
+                    int randRoom = UnityEngine.Random.Range(0, level.levelRoomList.Count - 1);
+                    GridNode bbb = level.levelRoomList[randRoom].QuickFreeSpot();
+                    Vector2Int b = new Vector2Int(bbb.gridX, bbb.gridY);
+                    pathNodes = AStar(a, b);
+                }
+            }
+            //Awareness - отвечает за то насколько бабайка осведомлена об игроке.  огда 100 - замечает его и нападает.
+            if (lookCooldown >= 0.1f)
+            {
+                lookCooldown = 0;
+                if (CanSee(playerR))
+                {
+                    awareness = Mathf.Clamp(awareness + 10 + 10 / Mathf.Clamp(distance(playerR), 1, 10) + awareness / 100, 0, 300);
+                }
+                else
+                {
+                    awareness = Mathf.Clamp(awareness - 2, 0, 300);
+                }
+            }
+
+
+            if (isCharging && (chargingCooldown == 0))
+            {
+                charging += Time.deltaTime;
+            }
+            if (charging > 2f)
+            {
+                charging = 0;
+                chargingCooldown = 1f;
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, 3);
+                foreach (var item in colliders)
+                {
+                    Debug.Log(item.transform.tag);
+                    if (item.transform.tag == "Creature" || item.transform.tag == "Interactible")
+                    {
+                        item.SendMessage("ApplyDamage", 20f);
+                    }
+
+                }
+
+                /*
+                GameObject e = Instantiate(AOE);
+                e.transform.position = transform.position;*/
+            }
+
+
+            if (awareness >= 100)
+            {
+                pathNodes.Clear();
+
+                if (distance(playerR) < 3.5f)
+                {
+                    //pathfindChase = false;
+                    isCharging = true;
+                }
+                //else {  pathfindChase = true; }
+
+                //здесь был умный код но теперь он где-то внизу в комментах
+
+                //else 
+                {
+                    if (!longRangeChase)
+                    {
+                        pathNodes.Clear();
+                        Vector2Int a = new Vector2Int(level.WorldToGrid(this.transform.position).gridX, level.WorldToGrid(this.transform.position).gridY);
+                        Vector2Int b = new Vector2Int(level.WorldToGrid(playerR.transform.position).gridX, level.WorldToGrid(playerR.transform.position).gridY);
+                        angryNodes = AStar(a, b, false);
+                        if (angryNodes.Count > 2)
+                        {
+                            needNode = angryNodes[1];
+                        }
+                        longRangeChase = true;
+                    }
+                    else
+                    {
+                        if (needNode != null)
+                        {
+                            Vector2 nextNodePost = level.GridToWorld(new Vector2Int(needNode.gridX, needNode.gridY));
+                            rb.velocity = angleBetweenPoints(this.transform.position, new Vector2(nextNodePost.x, nextNodePost.y)) * speed * Mathf.Clamp(awareness / 200, 1, 1.50f);
+                            Vector2 targetNode = level.GridToWorld(new Vector2Int(needNode.gridX, needNode.gridY));
+                            if ((Math.Abs(targetNode.x - transform.position.x) < 0.2f) && (Math.Abs(targetNode.y - transform.position.y) < 0.20f))
+                            {
+                                needNode = null;
+                                longRangeChase = false;
+                            }
+
+                        }
+                        else { longRangeChase = false; }
+                    }
+
+
+
+                }
+
+            }
+            else
+            {
+                angryNodes.Clear();
+                needNode = null;
+                if (pathNodes.Count > 0)
+                {//Ќавигаци€ от ноды до ноды
+                    Vector2 nextNodePost = level.GridToWorld(new Vector2Int(pathNodes[0].gridX, pathNodes[0].gridY));
+                    rb.velocity = angleBetweenPoints(this.transform.position, nextNodePost) * speed * (100 - Mathf.Clamp(awareness, 0, 100)) / 100;
+                    Vector2 targetNode = level.GridToWorld(new Vector2Int(pathNodes[0].gridX, pathNodes[0].gridY));
+                    if ((Math.Abs(targetNode.x - transform.position.x) < 0.2f) && (Math.Abs(targetNode.y - transform.position.y) < 0.20f))
+                    {
+                        pathNodes.RemoveAt(0);
+                    }
+                }
+                else { rb.velocity = Vector2.zero; }
+            }
+        }
+        else
+        {
+            if (isAlive && isPlaying)
+            {
+                if (stopTime > 0f)
+                {
+                    stopTime -= 1f;
+                }
+            }
+            rb.velocity = new Vector3(0, 0, 0);
+        }
 
         
     }
@@ -176,18 +215,27 @@ public class GhostBehaviour : Creature
          needNode = null;
     }
 
-    public bool CanSee(GameObject target) {
+    public bool CanSee(GameObject target)
+    {
         Vector2 startP = this.transform.position;
-        Vector2 startEP = target.transform.position; 
+        Vector2 startEP = target.transform.position;
         Vector3 diff = new Vector3(startEP.x - startP.x, startEP.y - startP.y, 0);
         //float distance = (float)(Mathf.Abs((float)(Mathf.Min(diff.x, diff.y) * 1.5)) + Mathf.Abs(diff.x - diff.y));
 
         RaycastHit2D hit = Physics2D.Raycast(startP, diff, Mathf.Infinity, 1 << 3);
-        if (hit.transform.tag == playerR.transform.tag) {
+        if (hit.transform.tag == playerR.transform.tag)
+        {
             return true;
         }
         return false;
     }
+
+    public void StopGhost(float addTime)
+    {
+        stopTime += addTime;
+    }
+
+
 
 }
 /*

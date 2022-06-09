@@ -228,7 +228,7 @@ public class Pause : MonoBehaviour
 
         GameObject.Find("MainSlots").transform.position += new Vector3(0f, 0f, 100f);
 
-        //GameObject.Find("SlotMenuSelected").transform.localPosition = new Vector3((GameObject.Find("Player").GetComponent<Player>().activeSlot - 2f) / 5f, 0.2f, -0.5f);
+        GameObject.Find("SlotMenuSelected").transform.localPosition = new Vector3((GameObject.Find("Player").GetComponent<Player>().activeSlot - 2f) / 5f, 0.2f, -0.5f);
 
     }
 

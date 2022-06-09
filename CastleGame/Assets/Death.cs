@@ -45,6 +45,7 @@ public class Death : MonoBehaviour
                 GameObject.Find("DeathMenu").transform.position = new Vector3(-100, -100, -100);
                 GameObject.Find("Player").GetComponent<Player>().isPlaying = true;
                 GameObject.Find("Player").GetComponent<Player>().Resurrect();
+                GameObject.Find("DeathText").GetComponent<TextMesh>().text = "论 论让欣巳!";
 
             }
             else
@@ -73,6 +74,7 @@ public class Death : MonoBehaviour
                             isAsking = false;
                             GameObject.Find("DeathExitSure").transform.localScale = new Vector3(0f, 0f, 0f);
                             resetter.GetComponent<StartingSequence>().StartGame();
+                            GameObject.Find("DeathText").GetComponent<TextMesh>().text = "论 论让欣巳!";
                         }
                         if (mouseObject.name == "DeathExitBt")
                         {

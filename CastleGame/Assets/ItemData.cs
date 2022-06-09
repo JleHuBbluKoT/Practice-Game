@@ -43,7 +43,7 @@ public class ItemData : MonoBehaviour
             var nextLocationDistance = currentSpeed / GameObject.Find("ItemSpawn").GetComponent<Items>().list[ID].weight
                 * force * GameObject.Find("ItemSpawn").GetComponent<Items>().baseSlow;
             RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y) + new Vector2(direction.x, direction.y),
-                new Vector2(direction.x, direction.y), 5f);
+                new Vector2(direction.x, direction.y), 1f);
 
             if (hit.collider != null && (hit.collider.tag != "Button") && (hit.collider.tag != "Item") && (hit.collider.tag != "SlotItem") && hit.collider.tag != "HoldItem" && hit.collider.tag != "Slot" && hit.collider.tag != "Warning" && hit.collider.tag != "MainCamera" && hit.collider.tag != "Bar")
             {
@@ -51,32 +51,44 @@ public class ItemData : MonoBehaviour
                 {
                     currentSpeed = 0f;
                 }
-                if (hit.collider.tag == "Creature")
-                {
-                    if (!hit.collider.GetComponent<Creature>().Invincible)
-                    {
-                        hit.collider.GetComponent<Creature>().health -= itemsData.list[ID].damage;
-                        if (hit.collider.GetComponent<Creature>().health > hit.collider.GetComponent<Creature>().MaxHealth)
-                        {
-                            hit.collider.GetComponent<Creature>().health = hit.collider.GetComponent<Creature>().MaxHealth;
-                        }
-                        if (hit.collider.GetComponent<Creature>().health <= 0)
-                        {
-                            Destroy(hit.transform.gameObject);
-                        }
-                    }
-                    if (ID == 0)
-                    {
-                        Destroy(this.gameObject);
-                    }
-                    
-                }
+
+                //Debug.Log("Hit " + hit.collider.tag);
 
                 if (hit.collider.tag == "ExitDoor" && ID == 2)
                 {
-                    Destroy(hit.transform.gameObject);
+                    Destroy(hit.collider.gameObject);
                     Destroy(this.gameObject);
                 }
+
+                if (hit.collider.tag == "Creature" && (owner == -1 || owner == -3))
+                {
+
+                    hit.collider.GetComponent<GhostBehaviour>().StopGhost(itemsData.list[ID].damage * 30f);
+                    if (ID != 2)
+                    {
+                        Destroy(this.gameObject);
+                    }
+
+                    //if (!hit.collider.GetComponent<Creature>().Invincible)
+                    //{
+                    //    hit.collider.GetComponent<Creature>().health -= itemsData.list[ID].damage * 100;
+                    //    if (hit.collider.GetComponent<Creature>().health > hit.collider.GetComponent<Creature>().MaxHealth)
+                    //    {
+                    //        hit.collider.GetComponent<Creature>().health = hit.collider.GetComponent<Creature>().MaxHealth;
+                    //    }
+                    //    if (hit.collider.GetComponent<Creature>().health <= 0)
+                    //    {
+                    //        Destroy(hit.transform.gameObject);
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    hit.collider.GetComponent<Creature>().stopTime += itemsData.list[ID].damage * 100;
+                    //    Destroy(this.gameObject);
+                    //}
+
+                }
+
             }
 
 

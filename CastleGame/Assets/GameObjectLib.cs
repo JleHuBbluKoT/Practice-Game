@@ -25,7 +25,7 @@ public class GameObjectLib : MonoBehaviour
     {
         GameObject e = Instantiate(keyDoor);
         e.transform.parent = interactiblesLayer.transform;
-        e.transform.position = new Vector3((keyPos.x + 0.5f) * level.library.globalGrid.transform.localScale.x, (keyPos.y + 0.5f) * level.library.globalGrid.transform.localScale.y, 0);
+        e.transform.position = new Vector3((keyPos.x + 0.5f) * level.library.globalGrid.transform.localScale.x, (keyPos.y + 0.5f) * level.library.globalGrid.transform.localScale.y, -2);
         e.transform.localScale = new Vector3(level.library.globalGrid.transform.localScale.x, level.library.globalGrid.transform.localScale.y, level.library.globalGrid.transform.localScale.z);
         associate(new Vector2Int(keyPos.x, keyPos.y), level, e);
         level.grid[keyPos.x, keyPos.y].walkable = false;

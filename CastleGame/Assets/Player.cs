@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
 
         //Bar resize
         var cameraData = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.85f, 1f);
+        GameObject.Find("Bar").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * -0.85f, 0.4f);
         GameObject.Find("Bar").transform.localScale = new Vector3(cameraData.orthographicSize * 1.5f, cameraData.orthographicSize * 0.2f, 1f);
 
         GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 1f);
@@ -109,12 +109,15 @@ public class Player : MonoBehaviour
             //<PLAYING>
 
             //Applying death due 0 or less healthpoints
+
+            
             if (isAlive)
             {
                 if (health.current <= 0f) {
                     isAlive = false;
                     isPlaying = false;
                     Debug.Log("YOU DIED");
+                    GameObject.Find("DeathText").GetComponent<TextMesh>().text = "¬€ œ–Œ»√–¿À»";
                     GameObject.Find("Bar").transform.localScale = new Vector3(0f, 0f, 0f);
                     GameObject.Find("MainSlots").transform.localScale = new Vector3(0f, 0f, 0f);
                 }
@@ -296,7 +299,7 @@ public class Player : MonoBehaviour
                         throwDir[0] = Mathf.Sin(Mathf.Abs(throwDir[0] / diag) * Mathf.PI / 2) * Mathf.Sign(throwDir[0]);
                         throwDir[1] = Mathf.Sin(Mathf.Abs(throwDir[1] / diag) * Mathf.PI / 2) * Mathf.Sign(throwDir[1]);
 
-                        GameObject.FindWithTag("ItemSpawn").GetComponent<Items>().CreateItem(transform.position + throwSquare, inventory[activeSlot].ID, -1, 1f, throwDir);
+                        GameObject.FindWithTag("ItemSpawn").GetComponent<Items>().CreateItem(transform.position + throwSquare, inventory[activeSlot].ID, -1, 1f, throwDir * 1.1f);
                         inventory[activeSlot].amount -= 1;
                     }
                 }
@@ -353,7 +356,7 @@ public class Player : MonoBehaviour
                                     Destroy(GameObject.Find(obj.name));
                                     if ((obj.GetComponent<ItemData>().owner == -3 || obj.GetComponent<ItemData>().owner > -1) && obj.GetComponent<ItemData>().currentSpeed > 0f)
                                     {
-                                        health.current -= GameObject.Find("ItemSpawn").GetComponent<Items>().list[obj.GetComponent<ItemData>().ID].damage * health.max;
+                                        health.current -= GameObject.Find("ItemSpawn").GetComponent<Items>().list[obj.GetComponent<ItemData>().ID].damage;
                                     }
                                     itemAdded = true;
                                 }
@@ -509,6 +512,12 @@ public class Player : MonoBehaviour
                 {
                     GameObject.FindWithTag("ItemSpawn").GetComponent<Items>().CreateItem(mousePos, -1, -3, 1f);
                 }
+
+                if (Input.GetKeyUp(KeyCode.Y) && isAlive)  {
+                    isAlive = false;
+                    isPlaying = false;
+                }
+
             }
 
             //</PLAYING>
@@ -543,6 +552,18 @@ public class Player : MonoBehaviour
         GameObject.Find("MainSlots").transform.localPosition = new Vector3(0f, cameraData.orthographicSize * 0.85f, 1f);
         GameObject.Find("MainSlots").transform.localScale = new Vector3(cameraData.orthographicSize * 1f, cameraData.orthographicSize * 0.2f, 1f);
     }
+    //DEATH 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+        if (collision.transform.tag == "Finish")
+        {
+            isAlive = false;
+            isPlaying = false;
+            GameObject.Find("Bar").transform.localScale = new Vector3(0f, 0f, 0f);
+            GameObject.Find("MainSlots").transform.localScale = new Vector3(0f, 0f, 0f);
+        }
+    }
 
     //<HUNGER> void
     //Change hunger points amount
@@ -561,10 +582,15 @@ public class Player : MonoBehaviour
     public void DefaultInventory()
     {
         inventory.Clear();
+        inventory.Add(newSlot(5, 20));
         inventory.Add(newSlot(1, 10));
-        inventory.Add(newSlot(2, 10));
-        inventory.Add(newSlot(3, 10));
-        inventory.Add(newSlot(0, 10));
+        inventory.Add(newSlot(3, 20));
+        inventory.Add(newSlot(0, 5));
+        if (cheatsTurnedOn)
+        {
+            inventory.Add(newSlot(2, 5));
+        }
+        
     }
 
 }
