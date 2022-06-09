@@ -78,7 +78,7 @@ public class GhostBehaviour : Creature
                 lookCooldown = 0;
                 if (CanSee(playerR))
                 {
-                    awareness = Mathf.Clamp(awareness + 10 + 10 / Mathf.Clamp(distance(playerR), 1, 10) + awareness / 100, 0, 300);
+                    awareness = Mathf.Clamp(awareness + 6 + 5 / Mathf.Clamp(distance(playerR), 1, 10) + awareness / 150, 0, 300);
                 }
                 else
                 {
@@ -101,7 +101,7 @@ public class GhostBehaviour : Creature
                     Debug.Log(item.transform.tag);
                     if (item.transform.tag == "Creature" || item.transform.tag == "Interactible")
                     {
-                        item.SendMessage("ApplyDamage", 20f);
+                        item.SendMessage("ApplyDamage", 35f);
                     }
 
                 }
